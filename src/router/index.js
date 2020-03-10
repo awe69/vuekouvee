@@ -8,11 +8,27 @@ const LayoutPelanggan = () =>
 function viewPelanggan(view){
     return () => import (`../Pelanggan/Contents/${view}.vue`)
 }
+const LayoutPegawai = () =>
+    import('../Pegawai/Layout/Template.vue');
+function PegawaiAdmin(view){
+    return () => import(`../Pegawai/Admin/${view}.vue`)
+}
 
 const routes = [
     {
         path:'/',
         component: LayoutPelanggan
+    },
+    {
+        path:'/pegawai',
+        component:LayoutPegawai,
+        children:[
+            {
+                name:'ProdukAdmin',
+                path:'/produk',
+                component:PegawaiAdmin('Produk')
+            }
+        ]
     }
 ]
 

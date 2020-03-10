@@ -1,16 +1,19 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
-// import Axios from 'axios'
+import Axios from 'axios'
+import vuetify from './plugins/vuetify';
 import router from './router'
+import "vuetify/dist/vuetify.min.css";
+import "@mdi/font/css/materialdesignicons.css";
 
-Vue.use(Buefy)
+Vue.prototype.$http = Axios;
+Vue.prototype.$apiUrl = 'http://127.0.0.1:81/apikouvee/index.php';
 
 Vue.config.productionTip = false
 
 new Vue({
   render: h => h(App),
   router,
-  Buefy,
+  vuetify,
+  components:{ App },
 }).$mount('#app')
