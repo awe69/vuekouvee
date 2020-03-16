@@ -25,7 +25,7 @@ const routes = [
         children:[
             {
                 name:'ProdukAdmin',
-                path:'/produk',
+                path:'/pegawai/produk',
                 component:PegawaiAdmin('Produk')
             }
         ]

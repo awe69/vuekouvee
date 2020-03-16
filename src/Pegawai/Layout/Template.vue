@@ -70,7 +70,7 @@
             title: 'Admin',
             icon:'mdi-account',
             items: [
-              { title: 'Produk',icons:'mdi-checkbox-blank-circle',route:'/produk'},
+              { title: 'Produk',icons:'mdi-checkbox-blank-circle',route:'/pegawai/produk'},
               { title: 'Layanan',icons:'mdi-checkbox-blank-circle',route:''},
               { title: 'Jenis Hewan',icons:'mdi-checkbox-blank-circle',route:''},
               { title: 'Ukuran',icons:'mdi-checkbox-blank-circle',route:''},
