@@ -72,10 +72,10 @@
             items: [
               { title: 'Produk',icons:'mdi-checkbox-blank-circle',route:'/pegawai/produk'},
               { title: 'Layanan',icons:'mdi-checkbox-blank-circle',route:''},
-              { title: 'Jenis Hewan',icons:'mdi-checkbox-blank-circle',route:''},
-              { title: 'Ukuran',icons:'mdi-checkbox-blank-circle',route:''},
+              { title: 'Jenis Hewan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/jhewan'},
+              { title: 'Ukuran',icons:'mdi-checkbox-blank-circle',route:'/pegawai/ukuran'},
               { title: 'Pegawai',icons:'mdi-checkbox-blank-circle',route:''},
-              { title: 'Supplier',icons:'mdi-checkbox-blank-circle',route:''},
+              { title: 'Supplier',icons:'mdi-checkbox-blank-circle',route:'/pegawai/supplier'},
             ],
           },
           {

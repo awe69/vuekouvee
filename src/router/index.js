@@ -27,6 +27,21 @@ const routes = [
                 name:'ProdukAdmin',
                 path:'/pegawai/produk',
                 component:PegawaiAdmin('Produk')
+            },
+            {
+                name:'UkuranAdmin',
+                path:'/pegawai/ukuran',
+                component:PegawaiAdmin('Ukuran')
+            },
+            {
+                name:'JhewanAdmin',
+                path:'/pegawai/jhewan',
+                component:PegawaiAdmin('JenisHewan')
+            },
+            {
+                name:'SupplierAdmin',
+                path:'/pegawai/supplier',
+                component:PegawaiAdmin('Supplier')
             }
         ]
     }

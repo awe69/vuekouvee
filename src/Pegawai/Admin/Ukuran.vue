@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md fluid mb-1 mt-2>
       <v-container fluid>
-        <h2 class="text-md-center">Data Produk</h2>
+        <h2 class="text-md-center">Data Ukuran</h2>
         <v-layout row wrap style="margin:10px">
           <v-flex xs6>
             <v-btn
@@ -12,7 +12,7 @@
             color = "green accent-3"
             @click="dialog = true">               
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>                   
-            Tambah Produk</v-btn>           
+            Tambah Ukuran</v-btn>           
           </v-flex>           
           <v-flex xs6 class="text-right">               
             <v-text-field                 
@@ -26,30 +26,24 @@
       </v-container>
     <v-data-table
     :headers="headers"
-    :items="produks"
+    :loading="load"
+    :items="ukurans"
     :items-per-page="5"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
       <tbody >
-        <tr v-for="(item,index) in items" :key="item.ID_PRODUK">
+        <tr v-for="(item,index) in items" :key="item.ID_UKURAN">
           <td>{{index+1}}</td>
-          <td>{{item.GAMBAR}}</td>
-          <td >{{item.NAMA_PRODUK}}</td>
-          <td>{{item.MIN_STOCK}}</td>
-          <td> <v-chip :color="getColor(item.STOCK,item.MIN_STOCK)">{{item.STOCK}}</v-chip></td>
-          <td>{{item.SATUAN_PRODUK}}</td>
-          <td>{{item.HARGA_BELI}}</td>
-          <td>{{item.HARGA_JUAL}}</td>
-          <td >{{item.CREATE_AT_PRODUK}}</td>
-          <td>{{item.UPDATE_AT_PRODUK}}</td>
-          
-          <td>{{item.DELETE_AT_PRODUK}}</td>
+          <td >{{item.UKURAN}}</td>
+          <td >{{item.CREATE_AT_UKURAN}}</td>
+          <td>{{item.UPDATE_AT_UKURAN}}</td>
+          <td>{{item.DELETE_AT_UKURAN}}</td>
           <td class="text-center"> 
             <v-btn icon color="indigo" light @click="editHandler(item)" >
               <v-icon>mdi-pencil</v-icon> 
             </v-btn> 
-            <v-btn icon color="error" light @click="deleteData(item.ID_PRODUK)" > 
+            <v-btn icon color="error" light @click="deleteData(item.ID_UKURAN)" > 
               <v-icon>mdi-delete</v-icon> 
             </v-btn>
           </td>
@@ -60,28 +54,13 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Produk</span>
+          <span class="headline">Edit Ukuran</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Nama Produk" v-model="form.nama_produk" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Min Stock" v-model="form.min_stock" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Stock" v-model="form.stock" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Satuan Produk" v-model="form.satuan_produk" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Harga Beli" v-model="form.harga_beli" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Harga Jual" v-model="form.harga_jual" required></v-text-field>
+                <v-text-field label="Ukuran" v-model="form.ukuran" required></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -109,12 +88,7 @@ export default {
     keyword: '',
     form:{
       id_pegawai: 1,
-      nama_produk: "",
-      stock: 0,
-      min_stock: 0,
-      satuan_produk:"",
-      harga_beli:0,
-      harga_jual:0,
+      ukuran: '',
     },
     errors:"",
     headers: [
@@ -122,22 +96,16 @@ export default {
       text: 'NO',
       align: 'start',
       sortable: true,
-      value: 'id_produk',
+      value: 'ID_UKURAN',
       },
-      { text: '', value: 'Gambar' },
-      { text: 'Nama Produk', value: 'nama_produk' },
-      { text: 'Min Stock', value: 'min_stock' },
-      { text: 'Stock', value: 'stock' },
-      { text: 'Satuan Produk', value: 'satuan_produk' },
-      { text: 'Harga beli', value: 'harga_beli' },
-      { text: 'Harga Jual', value: 'harga_jual' },
+      { text: 'Ukuran', value: 'nama_produk' },
       { text: 'Create At Produk', value: 'create_at_produk' },
       { text: 'Update At Produk', value: 'update_at_produk' },
       { text: 'Delete At Produk', value: 'delete_at_produk' },
       { text: 'Action', value: 'action' },
     ],
-    produks: [],
-    produk: new FormData,
+    ukurans: [],
+    ukuran: new FormData(),
     snackbar: false,
     color: null,
     text: '',
@@ -146,16 +114,12 @@ export default {
     }),
   methods: {
     sendData(){ 
-      this.produk.append('id_pegawai', this.form.id_pegawai); 
-      this.produk.append('nama_produk', this.form.nama_produk); 
-      this.produk.append('stock', this.form.stock); 
-      this.produk.append('min_stock', this.form.min_stock); 
-      this.produk.append('satuan_produk', this.form.satuan_produk);
-      this.produk.append('harga_beli', this.form.harga_beli);
-      this.produk.append('harga_jual', this.form.harga_jual);
-      var uri =this.$apiUrl + '/produk' 
+      this.ukuran.append('id_pegawai', this.form.id_pegawai); 
+      this.ukuran.append('ukuran', this.form.ukuran);
+      console.log(this.ukuran.ukuran);
+      var uri = this.$apiUrl + '/ukuran' 
       this.load = true;
-      this.$http.post(uri,this.produk).then(response =>{ 
+      this.$http.post(uri,this.ukuran).then(response =>{ 
         this.snackbar = true; 
         this.color = 'green'; 
         this.text = response.data.Message; 
@@ -172,17 +136,22 @@ export default {
       }) 
     },
     updateData(){ 
-      this.produk.append('id_pegawai', this.form.id_pegawai); 
-      this.produk.append('nama_produk', this.form.nama_produk); 
-      this.produk.append('stock', this.form.stock); 
-      this.produk.append('min_stock', this.form.min_stock); 
-      this.produk.append('satuan_produk', this.form.satuan_produk);
-      this.produk.append('harga_beli', this.form.harga_beli);
-      this.produk.append('harga_jual', this.form.harga_jual);
-      var uri =this.$apiUrl + '/produk/' + this.updatedId
+      // this.ukuran.append('id_pegawai', this.form.id_pegawai); 
+      // this.ukuran.append('ukuran', this.form.ukuran);
+      const qs = require('qs');
+      const data = {
+        id_pegawai: this.form.id_pegawai,
+        ukuran: this.form.ukuran
+      };
+      const confih={
+        headers:{
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+      var uri =this.$apiUrl + '/ukuran/' + this.updatedId
       console.log(uri);
       this.load = true;
-      this.$http.post(uri,this.produk).then(response =>{ 
+      this.$http.put(uri,qs.stringify(data),confih).then(response =>{ 
         this.snackbar = true; 
         this.color = 'green'; 
         this.text = response.data.Message; 
@@ -199,7 +168,7 @@ export default {
       }) 
     },
     deleteData(deleteId) {
-      var uri = this.$apiUrl + '/produk/' + deleteId;
+      var uri = this.$apiUrl + '/ukuran/' + deleteId;
       this.$http.delete(uri).then(response => {
         this.snackbar = true;
         this.text = response.data.Message;
@@ -215,31 +184,16 @@ export default {
       });
     },  
     getData(){
-      var uri = this.$apiUrl + '/produk'
-      this.$http.get(uri,this.produks).then(response => {
-      this.produks = response.data.Data
+      var uri = this.$apiUrl + '/ukuran'
+      this.$http.get(uri,this.ukurans).then(response => {
+      this.ukurans = response.data.Data
       })
     },
     editHandler(item) {
       this.typeInput = "edit";
-      this.form.nama_produk = item.NAMA_PRODUK;
-      this.form.stock=item.STOCK;
-      console.log(typeof this.form.stock);
-      this.form.min_stock=item.MIN_STOCK;
-      this.form.satuan_produk=item.SATUAN_PRODUK;
-      this.form.harga_beli=item.HARGA_BELI;
-      this.form.harga_jual=item.HARGA_JUAL;
-      (this.updatedId = item.ID_PRODUK);
+      this.form.ukuran = item.UKURAN;
+      (this.updatedId = item.ID_UKURAN);
       this.dialog = true;
-    },
-    getColor(stock,min) {
-      var a = parseInt(stock);
-      var b = parseInt(min);
-      if (a > b) {
-        return 'green'
-      }
-      else
-        return 'red'
     },
     setForm() {
       if (this.typeInput === "new") {
@@ -252,12 +206,7 @@ export default {
     resetForm() {
       this.form = {
         id_pegawai: 0,
-        nama_produk: '',
-        stock: 0,
-        min_stock: 0,
-        satuan_produk:'',
-        harga_beli:0,
-        harga_jual:0,
+        ukuran: '',
       };
     }
   },
