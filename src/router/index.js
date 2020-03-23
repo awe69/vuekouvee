@@ -42,6 +42,16 @@ const routes = [
                 name:'SupplierAdmin',
                 path:'/pegawai/supplier',
                 component:PegawaiAdmin('Supplier')
+            },
+            {
+                name:'PegawaiAdmin',
+                path:'/pegawai/employees',
+                component:PegawaiAdmin('Employees')
+            },
+            {
+                name:'LayananAdmin',
+                path:'/pegawai/layanan',
+                component:PegawaiAdmin('Layanan')
             }
         ]
     }

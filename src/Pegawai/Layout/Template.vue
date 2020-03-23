@@ -71,10 +71,10 @@
             icon:'mdi-account',
             items: [
               { title: 'Produk',icons:'mdi-checkbox-blank-circle',route:'/pegawai/produk'},
-              { title: 'Layanan',icons:'mdi-checkbox-blank-circle',route:''},
+              { title: 'Layanan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/layanan'},
               { title: 'Jenis Hewan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/jhewan'},
               { title: 'Ukuran',icons:'mdi-checkbox-blank-circle',route:'/pegawai/ukuran'},
-              { title: 'Pegawai',icons:'mdi-checkbox-blank-circle',route:''},
+              { title: 'Pegawai',icons:'mdi-checkbox-blank-circle',route:'/pegawai/employees'},
               { title: 'Supplier',icons:'mdi-checkbox-blank-circle',route:'/pegawai/supplier'},
             ],
           },

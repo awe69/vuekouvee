@@ -7,7 +7,7 @@ import "vuetify/dist/vuetify.min.css";
 import "@mdi/font/css/materialdesignicons.css";
 
 Vue.prototype.$http = Axios;
-Vue.prototype.$apiUrl = 'http://127.0.0.1:80/apikouvee/index.php';
+Vue.prototype.$apiUrl = 'http://localhost/apikouvee/index.php';
 
 Vue.config.productionTip = false
 

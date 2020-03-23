@@ -28,7 +28,7 @@
     :headers="headers"
     :loading="load"
     :items="ukurans"
-    :items-per-page="5"
+    :items-per-page="10"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -116,7 +116,7 @@ export default {
     sendData(){ 
       this.ukuran.append('id_pegawai', this.form.id_pegawai); 
       this.ukuran.append('ukuran', this.form.ukuran);
-      console.log(this.ukuran.ukuran);
+      // console.log(this.ukuran.ukuran);
       var uri = this.$apiUrl + '/ukuran' 
       this.load = true;
       this.$http.post(uri,this.ukuran).then(response =>{ 
@@ -149,7 +149,6 @@ export default {
         }
       }
       var uri =this.$apiUrl + '/ukuran/' + this.updatedId
-      console.log(uri);
       this.load = true;
       this.$http.put(uri,qs.stringify(data),confih).then(response =>{ 
         this.snackbar = true; 
@@ -159,6 +158,7 @@ export default {
         this.dialog = false 
         this.getData(); 
         this.resetForm(); 
+        console.log(this.form);
       }).catch(error =>{ 
         this.errors = error 
         this.snackbar = true; 
@@ -205,8 +205,8 @@ export default {
     },
     resetForm() {
       this.form = {
-        id_pegawai: 0,
-        ukuran: '',
+        id_pegawai: 1,
+        ukuran: "",
       };
     }
   },

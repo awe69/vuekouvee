@@ -27,24 +27,27 @@
     <v-data-table
     :headers="headers"
     :items="pegawais"
-    :items-per-page="5"
+    :items-per-page="10"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
       <tbody >
         <tr v-for="(item,index) in items" :key="item.ID_PEGAWAI">
           <td>{{index+1}}</td>
-          <td >{{item.NAMA_SUPPLIER}}</td>
-          <td >{{item.ALAMAT_SUPPLIER}}</td>
-          <td >{{item.PHONE_SUPPLIER}}</td>
-          <td >{{item.CREATE_AT_SUPPLIER}}</td>
-          <td>{{item.UPDATE_AT_SUPPLIER}}</td>
-          <td>{{item.DELETE_AT_SUPPLIER}}</td>
+          <td >{{item.NAMA_PEGAWAI}}</td>
+          <td >{{item.JABATAN}}</td>
+          <td >{{item.PHONE_PEGAWAI}}</td>
+          <td >{{item.ALAMAT_PEGAWAI}}</td>
+          <td >{{item.TGL_LAHIR_PEGAWAI}}</td>
+          <td :type="'password'">{{item.PASSWORD}}</td>
+          <td>{{item.CREATE_AT_PEGAWAI}}</td>
+          <td>{{item.UPDATE_AT_PEGAWAI}}</td>
+          <td>{{item.DELETE_AT_PEGAWAI}}</td>
           <td class="text-center"> 
             <v-btn icon color="indigo" light @click="editHandler(item)" >
               <v-icon>mdi-pencil</v-icon> 
             </v-btn> 
-            <v-btn icon color="error" light @click="deleteData(item.ID_SUPPLIER)" > 
+            <v-btn icon color="error" light @click="deleteData(item.ID_PEGAWAI)" > 
               <v-icon>mdi-delete</v-icon> 
             </v-btn>
           </td>
@@ -55,19 +58,52 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Ukuran</span>
+          <span class="headline">Edit Pegawai</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Nama Supplier" v-model="form.nama_supplier" required></v-text-field>
+                <v-text-field label="Nama Pegawai" v-model="form.nama_pegawai" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Alamat Supplier" v-model="form.alamat_supplier" required></v-text-field>
+                <v-text-field label="Jabatan" v-model="form.jabatan" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Phone Supplier" v-model="form.phone_supplier" required></v-text-field>
+                <v-text-field label="Phone Pegawai" v-model="form.phone_pegawai" required></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-menu
+                  ref="menu"
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  :return-value.sync="form.tanggal_lahir_pegawai"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="form.tanggal_lahir_pegawai"
+                      label="Tanggal Lahir Pegawai"
+                      prepend-icon="mdi-calendar-blank"
+                      readonly
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker v-model="form.tanggal_lahir_pegawai" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field label="Alamat Pegawai" v-model="form.alamat_pegawai" required></v-text-field>
+              </v-col>
+              
+              <v-col cols="12">
+                <v-text-field label="Password" v-model="form.password" required></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -93,11 +129,15 @@ export default {
     items: [],
     typeInput: 'new',
     keyword: '',
+    date: new Date().toISOString().substr(0, 10),
+    menu: false,
     form:{
-      id_pegawai: 1,
-      nama_supplier: "",
-      alamat_supplier:"",
-      phone_supplier:"",
+      nama_pegawai: "",
+      alamat_pegawai:"",
+      phone_pegawai:"",
+      jabatan:"",
+      tanggal_lahir_pegawai:"",
+      password:"",
     },
     errors:"",
     headers: [
@@ -105,18 +145,21 @@ export default {
       text: 'NO',
       align: 'start',
       sortable: true,
-      value: 'ID_SUPPLIER',
+      value: 'ID_PEGAWAI',
       },
-      { text: 'Nama Supplier', value: 'nama_supplier' },
-      { text: 'Alamat Supplier', value: 'alamat_supplier' },
-      { text: 'Phone Supplier', value: 'phone_supplier' },
-      { text: 'Create At Supplier', value: 'create_at_supplier' },
-      { text: 'Update At Supplier', value: 'update_at_supplier' },
-      { text: 'Delete At Supplier', value: 'delete_at_supplier' },
+      { text: 'Nama Pegawai', value: 'nama_pegawai' },
+      { text: 'Jabatan', value: 'jabatan' },
+      { text: 'Phone Pegawai', value: 'phone_pegawai' },
+      { text: 'Alamat Pegawai', value: 'alamat_pegawai' },
+      { text: 'Tanggal Lahir Pegawai', value: 'tgl_lahir_pegawai' },
+      { text: 'Password', value: 'password' },
+      { text: 'Create At Pegawai', value: 'create_at_pegawai' },
+      { text: 'Update At Pegawai', value: 'update_at_pegawai' },
+      { text: 'Delete At Pegawai', value: 'delete_at_pegawai' },
       { text: 'Action', value: 'action' },
     ],
-    suppliers: [],
-    supplier: new FormData,
+    pegawais: [],
+    pegawai: new FormData,
     snackbar: false,
     color: null,
     text: '',
@@ -125,13 +168,15 @@ export default {
     }),
   methods: {
     sendData(){ 
-      this.supplier.append('id_pegawai', this.form.id_pegawai); 
-      this.supplier.append('nama_supplier', this.form.nama_supplier);
-      this.supplier.append('alamat_supplier', this.form.alamat_supplier);
-      this.supplier.append('phone_supplier', this.form.phone_supplier);
-      var uri = this.$apiUrl + '/supplier' 
+      this.pegawai.append('nama_pegawai', this.form.nama_pegawai);
+      this.pegawai.append('jabatan', this.form.jabatan);
+      this.pegawai.append('tgl_lahir_pegawai', this.form.tanggal_lahir_pegawai);
+      this.pegawai.append('alamat_pegawai', this.form.alamat_pegawai);
+      this.pegawai.append('phone_pegawai', this.form.phone_pegawai);
+      this.pegawai.append('password', this.form.password);
+      var uri = this.$apiUrl + '/pegawai' 
       this.load = true;
-      this.$http.post(uri,this.supplier).then(response =>{ 
+      this.$http.post(uri,this.pegawai).then(response =>{ 
         this.snackbar = true; 
         this.color = 'green'; 
         this.text = response.data.Message; 
@@ -140,22 +185,33 @@ export default {
         this.getData(); 
         this.resetForm(); 
       }).catch(error =>{ 
-        this.errors = error 
+        this.errors = error;
+        console.log(this.error);
         this.snackbar = true; 
-        this.text = 'Try Again'; 
+        this.text = error.response.Message; 
         this.color = 'red'; 
         this.load = false; 
       }) 
     },
     updateData(){ 
-      this.supplier.append('id_pegawai', this.form.id_pegawai); 
-      this.supplier.append('nama_supplier', this.form.nama_supplier);
-      this.supplier.append('alamat_supplier', this.form.alamat_supplier);
-      this.supplier.append('phone_supplier', this.form.phone_supplier);
-      var uri =this.$apiUrl + '/supplier/' + this.updatedId
-      console.log(uri);
+      const qs = require('qs');
+      const data = {
+        nama_pegawai: this.form.nama_pegawai,
+        jabatan: this.form.jabatan,
+        tgl_lahir_pegawai:this.form.tanggal_lahir_pegawai,
+        alamat_pegawai:this.form.alamat_pegawai,
+        phone_pegawai:this.form.phone_pegawai,
+        password:this.form.password
+      };
+      const confih={
+        headers:{
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+      var uri =this.$apiUrl + '/pegawai/' + this.updatedId
+      // console.log(this.form.jabatan);
       this.load = true;
-      this.$http.put(uri,this.supplier).then(response =>{ 
+      this.$http.put(uri,qs.stringify(data),confih).then(response =>{ 
         this.snackbar = true; 
         this.color = 'green'; 
         this.text = response.data.Message; 
@@ -164,7 +220,8 @@ export default {
         this.getData(); 
         this.resetForm(); 
       }).catch(error =>{ 
-        this.errors = error 
+        this.errors = error
+        console.log(this.errors) 
         this.snackbar = true; 
         this.text = 'Try Again'; 
         this.color = 'red'; 
@@ -172,7 +229,7 @@ export default {
       }) 
     },
     deleteData(deleteId) {
-      var uri = this.$apiUrl + '/supplier/' + deleteId;
+      var uri = this.$apiUrl + '/pegawai/' + deleteId;
       this.$http.delete(uri).then(response => {
         this.snackbar = true;
         this.text = response.data.Message;
@@ -188,17 +245,21 @@ export default {
       });
     },  
     getData(){
-      var uri = this.$apiUrl + '/supplier'
+      var uri = this.$apiUrl + '/pegawai'
       this.$http.get(uri,this.ukurans).then(response => {
-      this.suppliers = response.data.Data
+      this.pegawais = response.data.Data
       })
     },
     editHandler(item) {
       this.typeInput = "edit";
-      this.form.nama_supplier = item.NAMA_SUPPLIER;
-      this.form.alamat_supplier = item.ALAMAT_SUPPLIER;
-      this.form.phone_supplier = item.PHONE_SUPPLIER;
-      (this.updatedId = item.ID_SUPPLIER);
+      this.form.nama_pegawai = item.NAMA_PEGAWAI;
+      this.form.alamat_pegawai = item.ALAMAT_PEGAWAI;
+      console.log(this.form.alamat_pegawai);
+      this.form.jabatan = item.JABATAN;
+      this.form.tanggal_lahir_pegawai = item.TGL_LAHIR_PEGAWAI;
+      this.form.phone_pegawai = item.PHONE_PEGAWAI;
+      this.form.password = item.PASSWORD;
+      (this.updatedId = item.ID_PEGAWAI);
       this.dialog = true;
     },
     setForm() {
@@ -211,15 +272,17 @@ export default {
     },
     resetForm() {
       this.form = {
-        id_pegawai: 0,
-        nama_supplier:'',
-        alamat_supplier:'',
-        phone_supplier:0,
+        nama_pegawai: "",
+        alamat_pegawai:"",
+        phone_pegawai:"",
+        jabatan:"",
+        tanggal_lahir_pegawai:"",
+        password:"",
       };
-    }
+    },
   },
   mounted() {
     this.getData();
-  }
+  },
 }
 </script>
