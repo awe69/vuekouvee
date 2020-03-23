@@ -148,28 +148,35 @@ export default {
       }) 
     },
     updateData(){ 
-      this.supplier.append('id_pegawai', this.form.id_pegawai); 
-      this.supplier.append('nama_supplier', this.form.nama_supplier);
-      this.supplier.append('alamat_supplier', this.form.alamat_supplier);
-      this.supplier.append('phone_supplier', this.form.phone_supplier);
-      var uri =this.$apiUrl + '/supplier/' + this.updatedId
-      console.log(uri);
-      this.load = true;
-      this.$http.put(uri,this.supplier).then(response =>{ 
-        this.snackbar = true; 
-        this.color = 'green'; 
-        this.text = response.data.Message; 
-        this.load = false; 
-        this.dialog = false 
-        this.getData(); 
-        this.resetForm(); 
-      }).catch(error =>{ 
-        this.errors = error 
-        this.snackbar = true; 
-        this.text = 'Try Again'; 
-        this.color = 'red'; 
-        this.load = false; 
-      }) 
+    const qs = require('qs');
+    const data = {
+      id_pegawai: this.form.id_pegawai,
+      nama_supplier: this.form.nama_supplier,
+      alamat_supplier: this.form.alamat_supplier,
+      phone_supplier: this.form.phone_supplier,
+    };
+    const confih={
+      headers:{
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+    var uri =this.$apiUrl + '/supplier/' + this.updatedId
+    this.load = true;
+    this.$http.put(uri,qs.stringify(data),confih).then(response =>{ 
+      this.snackbar = true; 
+      this.color = 'green'; 
+      this.text = response.data.Message; 
+      this.load = false; 
+      this.dialog = false 
+      this.getData(); 
+      this.resetForm(); 
+    }).catch(error =>{ 
+      this.errors = error 
+      this.snackbar = true; 
+      this.text = 'Try Again'; 
+      this.color = 'red'; 
+      this.load = false; 
+    }) 
     },
     deleteData(deleteId) {
       var uri = this.$apiUrl + '/supplier/' + deleteId;
@@ -205,7 +212,6 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
         this.updateData();
       }
     },

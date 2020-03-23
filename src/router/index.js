@@ -5,13 +5,16 @@ import VueRouter from 'vue-router';
 const LayoutPelanggan = () =>
     import('../Pelanggan/Layout/Navbar.vue');
 
-function viewPelanggan(view){
-    return () => import (`../Pelanggan/Contents/${view}.vue`)
-}
+// function viewPelanggan(view){
+//     return () => import (`../Pelanggan/Contents/${view}.vue`)
+// }
 const LayoutPegawai = () =>
     import('../Pegawai/Layout/Template.vue');
 function PegawaiAdmin(view){
     return () => import(`../Pegawai/Admin/${view}.vue`)
+}
+function PegawaiCS(view){
+    return () => import(`../Pegawai/CS/${view}.vue`)
 }
 
 const routes = [
@@ -53,6 +56,22 @@ const routes = [
                 path:'/pegawai/layanan',
                 component:PegawaiAdmin('Layanan')
             }
+        ]
+    },
+    {
+        path:'/pegawai',
+        component:LayoutPegawai,
+        children:[
+            {
+                name:'PelangganCS',
+                path:'/pegawai/pelanggan',
+                component:PegawaiCS('Pelanggan')
+            },
+            {
+                name:'HewanCS',
+                path:'/pegawai/hewan',
+                component:PegawaiCS('Hewan')
+            },
         ]
     }
 ]

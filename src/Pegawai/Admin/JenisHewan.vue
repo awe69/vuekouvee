@@ -59,7 +59,7 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Ukuran" v-model="form.jenishewan" required></v-text-field>
+                <v-text-field label="Jenis Hewan" v-model="form.jenishewan" required></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -87,7 +87,7 @@ export default {
     keyword: '',
     form:{
       id_pegawai: 1,
-      jenishewan: "",
+      jenishewan: '',
     },
     errors:"",
     headers: [
@@ -97,7 +97,7 @@ export default {
       sortable: true,
       value: 'ID_JENISHEWAN',
       },
-      { text: 'Jenis Hewan', value: 'nama_produk' },
+      { text: 'Jenis Hewan', value: 'jenishewan' },
       { text: 'Create At Jenis Hewan', value: 'create_at_jhewan' },
       { text: 'Update At Jenis Hewan', value: 'update_at_jhewan' },
       { text: 'Delete At Jenis Hewan', value: 'delete_at_jhewan' },
@@ -134,26 +134,34 @@ export default {
       }) 
     },
     updateData(){ 
-      this.produk.append('id_pegawai', this.form.id_pegawai); 
-      this.produk.append('jenishewan', this.form.jenishewan);
-      var uri =this.$apiUrl + '/jenishewan/' + this.updatedId
-      console.log(uri);
-      this.load = true;
-      this.$http.post(uri,this.jhewan).then(response =>{ 
-        this.snackbar = true; 
-        this.color = 'green'; 
-        this.text = response.data.Message; 
-        this.load = false; 
-        this.dialog = false 
-        this.getData(); 
-        this.resetForm(); 
-      }).catch(error =>{ 
-        this.errors = error 
-        this.snackbar = true; 
-        this.text = 'Try Again'; 
-        this.color = 'red'; 
-        this.load = false; 
-      }) 
+    const qs = require('qs');
+    const data = {
+      id_pegawai: this.form.id_pegawai,
+      jenishewan: this.form.jenishewan,
+    };
+    const confih={
+        headers:{
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+    var uri =this.$apiUrl + '/jenishewan/' + this.updatedId
+    console.log(uri);
+    this.load = true;
+    this.$http.put(uri,qs.stringify(data),confih).then(response =>{ 
+      this.snackbar = true; 
+      this.color = 'green'; 
+      this.text = response.data.Message; 
+      this.load = false; 
+      this.dialog = false 
+      this.getData(); 
+      this.resetForm(); 
+    }).catch(error =>{ 
+      this.errors = error 
+      this.snackbar = true; 
+      this.text = 'Try Again'; 
+      this.color = 'red'; 
+      this.load = false; 
+    }) 
     },
     deleteData(deleteId) {
       var uri = this.$apiUrl + '/jenishewan/' + deleteId;
@@ -179,7 +187,7 @@ export default {
     },
     editHandler(item) {
       this.typeInput = "edit";
-      this.form.ukuran = item.JENSIHEWAN;
+      this.form.jenishewan = item.JENISHEWAN;
       (this.updatedId = item.ID_JENISHEWAN);
       this.dialog = true;
     },

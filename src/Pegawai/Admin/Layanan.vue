@@ -125,7 +125,6 @@ export default {
       ukuran: {UKURAN:"",ID_UKURAN:0},
       hargalayanan:0,
     },
-    namajenis:"awe",
     errors:"",
     headers: [
       {
@@ -214,7 +213,7 @@ export default {
     }) 
 },
     deleteData(deleteId) {
-      var uri = this.$apiUrl + '/produk/' + deleteId;
+      var uri = this.$apiUrl + '/layanan/' + deleteId;
       this.$http.delete(uri).then(response => {
         this.snackbar = true;
         this.text = response.data.Message;
@@ -235,7 +234,7 @@ export default {
       var uri3 = this.$apiUrl + '/ukuran'
       this.$http.get(uri,this.layanans).then(response => {
       this.layanans = response.data.Data
-      console.log(this.layanans);
+      // console.log(this.layanans);
       });
       this.$http.get(uri2,this.jenishewans).then(response => {
       this.jenishewans = response.data.Data

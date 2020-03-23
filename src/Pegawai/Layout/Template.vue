@@ -82,8 +82,8 @@
             title:'CS',
             icon:'mdi-laptop',
             items: [
-              { title: 'Pelanggan',icons:'mdi-checkbox-blank-circle',route:''},
-              { title: 'Hewan',icons:'mdi-checkbox-blank-circle',route:''},
+              { title: 'Pelanggan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/pelanggan'},
+              { title: 'Hewan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/hewan'},
               { title: 'Transaksi Produk',icons:'mdi-checkbox-blank-circle',route:''},
               { title: 'Transaksi Layanan',icons:'mdi-checkbox-blank-circle',route:''},
             ]
