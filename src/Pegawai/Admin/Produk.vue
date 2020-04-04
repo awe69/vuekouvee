@@ -27,17 +27,25 @@
     <v-data-table
     :headers="headers"
     :items="produks"
-    :items-per-page="5"
+    :items-per-page="10"
+    :search="keyword"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
       <tbody >
         <tr v-for="(item,index) in items" :key="item.ID_PRODUK">
           <td>{{index+1}}</td>
-          <td>{{item.GAMBAR}}</td>
+          <td>
+            <v-img      
+            :src= '$apiGambar + item.GAMBAR'
+            class="grey lighten-2"
+            width="80"
+            height="80" 
+          ></v-img>
+          </td>
           <td >{{item.NAMA_PRODUK}}</td>
-          <td>{{item.MIN_STOCK}}</td>
           <td> <v-chip :color="getColor(item.STOCK,item.MIN_STOCK)">{{item.STOCK}}</v-chip></td>
+          <td>{{item.MIN_STOCK}}</td>
           <td>{{item.SATUAN_PRODUK}}</td>
           <td>{{item.HARGA_BELI}}</td>
           <td>{{item.HARGA_JUAL}}</td>
@@ -83,6 +91,12 @@
               <v-col cols="12">
                 <v-text-field label="Harga Jual" v-model="form.harga_jual" required></v-text-field>
               </v-col>
+              <v-col cols="12">
+                <v-file-input 
+                label= "Gambar Produk" 
+                v-model="form.gambar"
+                ></v-file-input>
+              </v-col>
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -115,26 +129,26 @@ export default {
       satuan_produk:"",
       harga_beli:0,
       harga_jual:0,
+      gambar:''
     },
     errors:"",
     headers: [
       {
       text: 'NO',
       align: 'start',
-      sortable: true,
       value: 'id_produk',
       },
-      { text: '', value: 'Gambar' },
-      { text: 'Nama Produk', value: 'nama_produk' },
-      { text: 'Min Stock', value: 'min_stock' },
-      { text: 'Stock', value: 'stock' },
-      { text: 'Satuan Produk', value: 'satuan_produk' },
-      { text: 'Harga beli', value: 'harga_beli' },
-      { text: 'Harga Jual', value: 'harga_jual' },
-      { text: 'Create At Produk', value: 'create_at_produk' },
-      { text: 'Update At Produk', value: 'update_at_produk' },
-      { text: 'Delete At Produk', value: 'delete_at_produk' },
-      { text: 'Action', value: 'action' },
+      { text: '', value: 'GAMBAR',sortable: false },
+      { text: 'Nama Produk', value: 'NAMA_PRODUK',sortable: false },
+      { text: 'Stock', value: 'STOCK',sortable: true},
+      { text: 'Min Stock', value: 'MIN_STOCK',sortable: true },
+      { text: 'Satuan Produk', value: 'SATUAN_PRODUK',sortable: false },
+      { text: 'Harga beli', value: 'HARGA_BELI',sortable: true },
+      { text: 'Harga Jual', value: 'HARGA_JUAL',sortable: true },
+      { text: 'Create At Produk', value: 'create_at_produk',sortable: false },
+      { text: 'Update At Produk', value: 'update_at_produk',sortable: false },
+      { text: 'Delete At Produk', value: 'delete_at_produk',sortable: false },
+      { text: 'Action', value: 'action',sortable: false },
     ],
     produks: [],
     produk: new FormData,
@@ -153,6 +167,7 @@ export default {
       this.produk.append('satuan_produk', this.form.satuan_produk);
       this.produk.append('harga_beli', this.form.harga_beli);
       this.produk.append('harga_jual', this.form.harga_jual);
+      this.produk.append('gambar',this.form.gambar);
       var uri =this.$apiUrl + '/produk' 
       this.load = true;
       this.$http.post(uri,this.produk).then(response =>{ 
@@ -179,8 +194,8 @@ export default {
       this.produk.append('satuan_produk', this.form.satuan_produk);
       this.produk.append('harga_beli', this.form.harga_beli);
       this.produk.append('harga_jual', this.form.harga_jual);
+      this.produk.append('gambar',this.form.gambar);
       var uri =this.$apiUrl + '/produk/' + this.updatedId
-      console.log(uri);
       this.load = true;
       this.$http.post(uri,this.produk).then(response =>{ 
         this.snackbar = true; 
@@ -224,11 +239,12 @@ export default {
       this.typeInput = "edit";
       this.form.nama_produk = item.NAMA_PRODUK;
       this.form.stock=item.STOCK;
-      console.log(typeof this.form.stock);
       this.form.min_stock=item.MIN_STOCK;
       this.form.satuan_produk=item.SATUAN_PRODUK;
       this.form.harga_beli=item.HARGA_BELI;
       this.form.harga_jual=item.HARGA_JUAL;
+      this.form.gambar=item.GAMBAR;
+      console.log(this.form.gambar);
       (this.updatedId = item.ID_PRODUK);
       this.dialog = true;
     },
@@ -258,6 +274,7 @@ export default {
         satuan_produk:'',
         harga_beli:0,
         harga_jual:0,
+        gambar:''
       };
     }
   },

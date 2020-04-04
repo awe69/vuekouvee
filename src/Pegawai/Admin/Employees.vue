@@ -28,6 +28,7 @@
     :headers="headers"
     :items="pegawais"
     :items-per-page="10"
+    :search="keyword"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -67,10 +68,21 @@
                 <v-text-field label="Nama Pegawai" v-model="form.nama_pegawai" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Jabatan" v-model="form.jabatan" required></v-text-field>
+                <v-select
+                  v-model="form.jabatan"
+                  :items="jabatan"
+                  label="Jabatan"
+                  dense
+                ></v-select>
+                <!-- <v-text-field label="Jabatan" v-model="form.jabatan" required></v-text-field> -->
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Phone Pegawai" v-model="form.phone_pegawai" required></v-text-field>
+                <v-text-field 
+                label="Phone Pegawai" 
+                v-model="form.phone_pegawai" 
+                :rules="rules"
+                counter="12"
+                required></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-menu
@@ -127,6 +139,8 @@ export default {
   data: () => ({
     dialog: false,
     items: [],
+    jabatan:['Admin','Kasir','CS'],
+    rules: [v => v.length <= 12 || 'Max 12 '],
     typeInput: 'new',
     keyword: '',
     date: new Date().toISOString().substr(0, 10),
@@ -144,19 +158,19 @@ export default {
       {
       text: 'NO',
       align: 'start',
-      sortable: true,
+      sortable: false,
       value: 'ID_PEGAWAI',
       },
-      { text: 'Nama Pegawai', value: 'nama_pegawai' },
-      { text: 'Jabatan', value: 'jabatan' },
-      { text: 'Phone Pegawai', value: 'phone_pegawai' },
-      { text: 'Alamat Pegawai', value: 'alamat_pegawai' },
-      { text: 'Tanggal Lahir Pegawai', value: 'tgl_lahir_pegawai' },
-      { text: 'Password', value: 'password' },
-      { text: 'Create At Pegawai', value: 'create_at_pegawai' },
-      { text: 'Update At Pegawai', value: 'update_at_pegawai' },
-      { text: 'Delete At Pegawai', value: 'delete_at_pegawai' },
-      { text: 'Action', value: 'action' },
+      { text: 'Nama Pegawai', value: 'NAMA_PEGAWAI',sortable: false },
+      { text: 'Jabatan', value: 'JABATAN',sortable: false },
+      { text: 'Phone Pegawai', value: 'PHONE_PEGAWAI',sortable: false },
+      { text: 'Alamat Pegawai', value: 'ALAMAT_PEGAWAI',sortable: false },
+      { text: 'Tanggal Lahir Pegawai', value: 'TGL_LAHIR_PEGAWAI',sortable: false },
+      { text: 'Password', value: 'PASSWORD',sortable: false },
+      { text: 'Create At Pegawai', value: 'create_at_pegawai',sortable: false },
+      { text: 'Update At Pegawai', value: 'update_at_pegawai',sortable: false },
+      { text: 'Delete At Pegawai', value: 'delete_at_pegawai',sortable: false },
+      { text: 'Action', value: 'action',sortable: false },
     ],
     pegawais: [],
     pegawai: new FormData,
@@ -186,7 +200,6 @@ export default {
         this.resetForm(); 
       }).catch(error =>{ 
         this.errors = error;
-        console.log(this.error);
         this.snackbar = true; 
         this.text = error.response.Message; 
         this.color = 'red'; 
@@ -209,7 +222,6 @@ export default {
         }
       }
       var uri =this.$apiUrl + '/pegawai/' + this.updatedId
-      // console.log(this.form.jabatan);
       this.load = true;
       this.$http.put(uri,qs.stringify(data),confih).then(response =>{ 
         this.snackbar = true; 
@@ -221,7 +233,6 @@ export default {
         this.resetForm(); 
       }).catch(error =>{ 
         this.errors = error
-        console.log(this.errors) 
         this.snackbar = true; 
         this.text = 'Try Again'; 
         this.color = 'red'; 
@@ -254,7 +265,6 @@ export default {
       this.typeInput = "edit";
       this.form.nama_pegawai = item.NAMA_PEGAWAI;
       this.form.alamat_pegawai = item.ALAMAT_PEGAWAI;
-      console.log(this.form.alamat_pegawai);
       this.form.jabatan = item.JABATAN;
       this.form.tanggal_lahir_pegawai = item.TGL_LAHIR_PEGAWAI;
       this.form.phone_pegawai = item.PHONE_PEGAWAI;
@@ -266,7 +276,6 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
         this.updateData();
       }
     },
@@ -274,7 +283,7 @@ export default {
       this.form = {
         nama_pegawai: "",
         alamat_pegawai:"",
-        phone_pegawai:"",
+        phone_pegawai:0,
         jabatan:"",
         tanggal_lahir_pegawai:"",
         password:"",

@@ -28,6 +28,7 @@
     :headers="headers"
     :loading="load"
     :items="ukurans"
+    :search="keyword"
     :items-per-page="10"
     class="elevation-1"
     >
@@ -83,6 +84,7 @@
 export default {
   data: () => ({
     dialog: false,
+    search:'',
     items: [],
     typeInput: 'new',
     keyword: '',
@@ -95,13 +97,12 @@ export default {
       {
       text: 'NO',
       align: 'start',
-      sortable: true,
       value: 'ID_UKURAN',
       },
-      { text: 'Ukuran', value: 'nama_produk' },
-      { text: 'Create At Produk', value: 'create_at_produk' },
-      { text: 'Update At Produk', value: 'update_at_produk' },
-      { text: 'Delete At Produk', value: 'delete_at_produk' },
+      { text: 'Ukuran', value: 'UKURAN' },
+      { text: 'Create At Produk', value: 'CREATE_AT_PRODUK' },
+      { text: 'Update At Produk', value: 'UPDATE_AT_PRODUK' },
+      { text: 'Delete At Produk', value: 'DELETE_AT_PRODUK' },
       { text: 'Action', value: 'action' },
     ],
     ukurans: [],

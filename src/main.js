@@ -5,9 +5,12 @@ import vuetify from './plugins/vuetify';
 import router from './router'
 import "vuetify/dist/vuetify.min.css";
 import "@mdi/font/css/materialdesignicons.css";
+import VueFullPage from 'vue-fullpage.js';
+Vue.use(VueFullPage)
 
 Vue.prototype.$http = Axios;
 Vue.prototype.$apiUrl = 'http://localhost/apikouvee/index.php';
+Vue.prototype.$apiGambar = 'http://localhost/apikouvee/upload/produk/';
 
 Vue.config.productionTip = false
 

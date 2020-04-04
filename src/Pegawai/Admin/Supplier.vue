@@ -27,7 +27,8 @@
     <v-data-table
     :headers="headers"
     :items="suppliers"
-    :items-per-page="5"
+    :search="keyword"
+    :items-per-page="10"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -107,9 +108,9 @@ export default {
       sortable: true,
       value: 'ID_SUPPLIER',
       },
-      { text: 'Nama Supplier', value: 'nama_supplier' },
-      { text: 'Alamat Supplier', value: 'alamat_supplier' },
-      { text: 'Phone Supplier', value: 'phone_supplier' },
+      { text: 'Nama Supplier', value: 'NAMA_SUPPLIER' },
+      { text: 'Alamat Supplier', value: 'ALAMAT_SUPPLIER' },
+      { text: 'Phone Supplier', value: 'PHONE_SUPPLIER' },
       { text: 'Create At Supplier', value: 'create_at_supplier' },
       { text: 'Update At Supplier', value: 'update_at_supplier' },
       { text: 'Delete At Supplier', value: 'delete_at_supplier' },

@@ -3,11 +3,11 @@ import VueRouter from 'vue-router';
 
 // import LayoutPelanggan from '../Pelanggan/Layout/Navbar.vue'
 const LayoutPelanggan = () =>
-    import('../Pelanggan/Layout/Navbar.vue');
+    import('../Pelanggan/Layout/full.vue');
 
-// function viewPelanggan(view){
-//     return () => import (`../Pelanggan/Contents/${view}.vue`)
-// }
+function viewPelanggan(view){
+    return () => import (`../Pelanggan/Contents/${view}.vue`)
+}
 const LayoutPegawai = () =>
     import('../Pegawai/Layout/Template.vue');
 function PegawaiAdmin(view){
@@ -20,7 +20,14 @@ function PegawaiCS(view){
 const routes = [
     {
         path:'/',
-        component: LayoutPelanggan
+        component: LayoutPelanggan,
+        children:[
+            {
+                name:'HomePelanggan',
+                path:'/home',
+                component:viewPelanggan('Home')
+            }
+        ]
     },
     {
         path:'/pegawai',

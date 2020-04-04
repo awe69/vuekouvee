@@ -28,6 +28,7 @@
     :headers="headers"
     :items="layanans"
     :items-per-page="10"
+    :search="keyword"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -130,18 +131,18 @@ export default {
       {
       text: 'NO',
       align: 'start',
-      
+      sortable: false,
       value: 'id_produk',
       },
-      { text: 'Nama Layanan', value: 'nama_layanan' },
-      { text: 'Ukuran', value: 'ukuran' },
-      { text: 'Jenis Hewan', value: 'jenishewan' },
-      { text: 'Harga Layanan', value: 'harga_layanan' },
-      { text: 'Nama Pegawai', value: 'nama_pegawai' },
-      { text: 'Create At Layanan', value: 'create_at_layanan' },
-      { text: 'Update At Layanan', value: 'update_at_layanan' },
-      { text: 'Delete At Layanan', value: 'delete_at_layanan' },
-      { text: 'Action', value: 'action' },
+      { text: 'Nama Layanan', value: 'NAMA_LAYANAN',sortable: false },
+      { text: 'Ukuran', value: 'UKURAN',sortable: false },
+      { text: 'Jenis Hewan', value: 'JENISHEWAN',sortable: false },
+      { text: 'Harga Layanan', value: 'HARGA_LAYANAN',sortable: true },
+      { text: 'Nama Pegawai', value: 'NAMA_PEGAWAI',sortable: false },
+      { text: 'Create At Layanan', value: 'create_at_layanan',sortable: false },
+      { text: 'Update At Layanan', value: 'update_at_layanan',sortable: false },
+      { text: 'Delete At Layanan', value: 'delete_at_layanan',sortable: false },
+      { text: 'Action', value: 'action',sortable: false },
     ],
     layanans: [],
     jenishewans:[],

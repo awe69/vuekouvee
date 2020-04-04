@@ -28,6 +28,7 @@
     :headers="headers"
     :items="pelanggans"
     :items-per-page="10"
+    :search="keyword"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -135,18 +136,18 @@ export default {
       {
       text: 'NO',
       align: 'start',
-      sortable: true,
+      sortable: false,
       value: 'ID_PELANGGAN',
       },
-      { text: 'Nama Pelanggan', value: 'nama_pelanggan' },
-      { text: 'Phone Pelanggan', value: 'phone_pelanggan' },
-      { text: 'Alamat Pelanggan', value: 'alamat_pelanggan' },
-      { text: 'Tanggal Lahir Pelanggan', value: 'tgl_lahir_pelanggan' },
-      { text: 'Nama Pegawai', value: 'nama_pegawai' },
-      { text: 'Create At Pegawai', value: 'create_at_pelanggan' },
-      { text: 'Update At Pegawai', value: 'update_at_pelanggan' },
-      { text: 'Delete At Pegawai', value: 'delete_at_pelanggan' },
-      { text: 'Action', value: 'action' },
+      { text: 'Nama Pelanggan', value: 'NAMA_PELANGGAN',sortable: false },
+      { text: 'Phone Pelanggan', value: 'PHONE_PELANGGAN',sortable: false },
+      { text: 'Alamat Pelanggan', value: 'ALAMAT_PELANGGAN',sortable: false },
+      { text: 'Tanggal Lahir Pelanggan', value: 'TGL_LAHIR_PELANGGAN',sortable: false },
+      { text: 'Nama Pegawai', value: 'NAMA_PEGAWAI',sortable: false },
+      { text: 'Create At Pegawai', value: 'create_at_pelanggan',sortable: false },
+      { text: 'Update At Pegawai', value: 'update_at_pelanggan',sortable: false },
+      { text: 'Delete At Pegawai', value: 'delete_at_pelanggan',sortable: false},
+      { text: 'Action', value: 'action',sortable: false },
     ],
     pelanggans: [],
     pelanggan: new FormData,

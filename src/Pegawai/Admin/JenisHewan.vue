@@ -27,7 +27,8 @@
     <v-data-table
     :headers="headers"
     :items="jhewans"
-    :items-per-page="5"
+    :items-per-page="10"
+    :search="keyword"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -94,13 +95,13 @@ export default {
       {
       text: 'NO',
       align: 'start',
-      sortable: true,
+      sortable: false,
       value: 'ID_JENISHEWAN',
       },
-      { text: 'Jenis Hewan', value: 'jenishewan' },
-      { text: 'Create At Jenis Hewan', value: 'create_at_jhewan' },
-      { text: 'Update At Jenis Hewan', value: 'update_at_jhewan' },
-      { text: 'Delete At Jenis Hewan', value: 'delete_at_jhewan' },
+      { text: 'Jenis Hewan', value: 'JENISHEWAN',sortable: false, },
+      { text: 'Create At Jenis Hewan', value: 'create_at_jhewan',sortable: false, },
+      { text: 'Update At Jenis Hewan', value: 'update_at_jhewan',sortable: false, },
+      { text: 'Delete At Jenis Hewan', value: 'delete_at_jhewan',sortable: false, },
       { text: 'Action', value: 'action' },
     ],
     jhewans: [],

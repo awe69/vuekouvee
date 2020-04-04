@@ -28,6 +28,7 @@
     :headers="headers"
     :items="hewans"
     :items-per-page="10"
+    :search="keyword"
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -153,18 +154,18 @@ export default {
       {
       text: 'NO',
       align: 'start',
-      sortable: true,
+      sortable: false,
       value: 'ID_HEWAN',
       },
-      { text: 'Nama Hewan', value: 'nama_hewan' },
-      { text: 'Jenis Hewan', value: 'jenis_hewan' },
-      { text: 'Tanggal Lahir Hewan', value: 'tgl_lahir_hewan' },
-      { text: 'Nama Pelanggan', value: 'nama_pelanggan' },
-      { text: 'Nama Pegawai', value: 'nama_pegawai' },
-      { text: 'Create At Hewan', value: 'create_at_hewan' },
-      { text: 'Update At Hewan', value: 'update_at_hewan' },
-      { text: 'Delete At Hewan', value: 'delete_at_hewan' },
-      { text: 'Action', value: 'action' },
+      { text: 'Nama Hewan', value: 'NAMA_HEWAN',sortable: false, },
+      { text: 'Jenis Hewan', value: 'JENISHEWAN',sortable: false, },
+      { text: 'Tanggal Lahir Hewan', value: 'TGL_LAHIR_HEWAN',sortable: false, },
+      { text: 'Nama Pelanggan', value: 'NAMA_PELANGGAN',sortable: false, },
+      { text: 'Nama Pegawai', value: 'NAMA_PEGAWAI',sortable: false, },
+      { text: 'Create At Hewan', value: 'create_at_hewan',sortable: false },
+      { text: 'Update At Hewan', value: 'update_at_hewan',sortable: false },
+      { text: 'Delete At Hewan', value: 'delete_at_hewan',sortable: false },
+      { text: 'Action', value: 'action',sortable: false },
     ],
     hewans: [],
     jenishewans:[],

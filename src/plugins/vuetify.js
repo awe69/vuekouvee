@@ -1,16 +1,20 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
-Vue.use(Vuetify);
+// import colors from 'vuetify/lib/util/colors'
 
-// Vue.use(Vuetify, {
-//     iconfont: "mdi"
-//   });
+Vue.use(Vuetify)
 
-export default new Vuetify({
-  icons: {
-    iconfont: "mdi"
-  },
+const vuetify = new Vuetify({
   theme: {
-    dark: true
-  }
-});
+    themes: {
+      dark: {
+        primary: '#1a1a1d',
+        secondary: '#ecce6d',
+        third:'#e37222',
+        anchor: '#8c9eff',
+        warning:'#f94333'
+      },
+    },dark:true
+  },
+})
+export default vuetify;
