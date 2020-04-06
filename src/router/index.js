@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 
 // import LayoutPelanggan from '../Pelanggan/Layout/Navbar.vue'
 const LayoutPelanggan = () =>
-    import('../Pelanggan/Layout/full.vue');
+    import('../Pelanggan/Layout/Navbar.vue');
 
 function viewPelanggan(view){
     return () => import (`../Pelanggan/Contents/${view}.vue`)
@@ -24,7 +24,7 @@ const routes = [
         children:[
             {
                 name:'HomePelanggan',
-                path:'/home',
+                path:'/',
                 component:viewPelanggan('Home')
             }
         ]
