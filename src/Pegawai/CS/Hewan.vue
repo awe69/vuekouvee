@@ -8,6 +8,7 @@
             depressed
             dark
             rounded
+            :disabled="dis"
             style="text-transform: none !important;"
             color = "green accent-3"
             @click="dialog = true">               
@@ -138,6 +139,7 @@ export default {
   data: () => ({
     dialog: false,
     items: [],
+    dis:false,
     typeInput: 'new',
     keyword: '',
     date: new Date().toISOString().substr(0, 10),
@@ -179,7 +181,7 @@ export default {
     }),
   methods: {
     sendData(){ 
-      this.hewan.append('id_pegawai', this.form.id_pegawai);
+      this.hewan.append('id_pegawai', this.$session.get('id'));
       this.hewan.append('id_pelanggan', this.form.cust.ID_PELANGGAN);
       this.hewan.append('id_jenishewan', this.form.jenishewan.ID_JENISHEWAN);
       this.hewan.append('nama_hewan', this.form.nama_hewan);
@@ -206,7 +208,7 @@ export default {
     updateData(){ 
       const qs = require('qs');
       const data = {
-        id_pegawai: this.form.id_pegawai,
+        id_pegawai: this.$session.get('id'),
         id_jenishewan:this.form.jenishewan.ID_JENISHEWAN,
         id_pelanggan:this.form.cust.ID_PELANGGAN,
         nama_hewan:this.form.nama_hewan,
@@ -251,20 +253,28 @@ export default {
         this.text = "Try Again";
         this.color = "red";
       });
-    },  
+    },
     getData(){
-    var uri = this.$apiUrl + '/hewan'
-    var uri2= this.$apiUrl+'/jenishewan'
-    var uri3= this.$apiUrl+'/pelanggan'
-    this.$http.get(uri,this.hewans).then(response => {
-        this.hewans = response.data.Data
-    });
-    this.$http.get(uri2,this.jenishewans).then(response => {
-        this.jenishewans = response.data.Data
-    });
-    this.$http.get(uri3,this.pelanggans).then(response => {
-        this.pelanggans = response.data.Data
-    });
+      if (!this.$session.exists()) {
+      this.$router.push('/login');
+      }else{
+        if (this.$session.get('role') != 'CS') {
+          this.dis = true ;
+        }else{
+          var uri = this.$apiUrl + '/hewan'
+          var uri2= this.$apiUrl+'/jenishewan'
+          var uri3= this.$apiUrl+'/pelanggan'
+          this.$http.get(uri,this.hewans).then(response => {
+              this.hewans = response.data.Data
+          });
+          this.$http.get(uri2,this.jenishewans).then(response => {
+              this.jenishewans = response.data.Data
+          });
+          this.$http.get(uri3,this.pelanggans).then(response => {
+              this.pelanggans = response.data.Data
+          });
+        }
+      }
     },
     editHandler(item) {
       this.typeInput = "edit";

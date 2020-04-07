@@ -10,6 +10,7 @@
             rounded
             style="text-transform: none !important;"
             color = "green accent-3"
+            :disabled="dis"
             @click="dialog = true">               
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>                   
             Tambah Produk</v-btn>           
@@ -49,9 +50,9 @@
           <td>{{item.SATUAN_PRODUK}}</td>
           <td>{{item.HARGA_BELI}}</td>
           <td>{{item.HARGA_JUAL}}</td>
+          <td>{{item.NAMA_PEGAWAI}}</td>
           <td >{{item.CREATE_AT_PRODUK}}</td>
           <td>{{item.UPDATE_AT_PRODUK}}</td>
-          
           <td>{{item.DELETE_AT_PRODUK}}</td>
           <td class="text-center"> 
             <v-btn icon color="indigo" light @click="editHandler(item)" >
@@ -118,6 +119,7 @@
 export default {
   data: () => ({
     dialog: false,
+    dis:false,
     items: [],
     typeInput: 'new',
     keyword: '',
@@ -145,6 +147,7 @@ export default {
       { text: 'Satuan Produk', value: 'SATUAN_PRODUK',sortable: false },
       { text: 'Harga beli', value: 'HARGA_BELI',sortable: true },
       { text: 'Harga Jual', value: 'HARGA_JUAL',sortable: true },
+      { text: 'Nama Pegawai', value: 'NAMA_PEGAWAI',sortable: true },
       { text: 'Create At Produk', value: 'create_at_produk',sortable: false },
       { text: 'Update At Produk', value: 'update_at_produk',sortable: false },
       { text: 'Delete At Produk', value: 'delete_at_produk',sortable: false },
@@ -156,11 +159,11 @@ export default {
     color: null,
     text: '',
     load: false,
-    updatedId:""
+    updatedId:"",
     }),
   methods: {
     sendData(){ 
-      this.produk.append('id_pegawai', this.form.id_pegawai); 
+      this.produk.append('id_pegawai', this.$session.get('id')); 
       this.produk.append('nama_produk', this.form.nama_produk); 
       this.produk.append('stock', this.form.stock); 
       this.produk.append('min_stock', this.form.min_stock); 
@@ -187,7 +190,7 @@ export default {
       }) 
     },
     updateData(){ 
-      this.produk.append('id_pegawai', this.form.id_pegawai); 
+      this.produk.append('id_pegawai', this.$session.get('id')); 
       this.produk.append('nama_produk', this.form.nama_produk); 
       this.produk.append('stock', this.form.stock); 
       this.produk.append('min_stock', this.form.min_stock); 
@@ -230,10 +233,19 @@ export default {
       });
     },  
     getData(){
-      var uri = this.$apiUrl + '/produk'
-      this.$http.get(uri,this.produks).then(response => {
-      this.produks = response.data.Data
-      })
+      if (!this.$session.exists()) {
+      this.$router.push('/login');
+      }else{
+        if (this.$session.get('role') != 'Admin') {
+          this.dis = true ;
+        }else{
+          console.log(this.$session.get('role'))
+          var uri = this.$apiUrl + '/produk'
+          this.$http.get(uri,this.produks).then(response => {
+          this.produks = response.data.Data
+          })
+        }
+      }
     },
     editHandler(item) {
       this.typeInput = "edit";

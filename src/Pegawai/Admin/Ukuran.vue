@@ -8,6 +8,7 @@
             depressed
             dark
             rounded
+            :disabled="dis"
             style="text-transform: none !important;"
             color = "green accent-3"
             @click="dialog = true">               
@@ -37,6 +38,7 @@
         <tr v-for="(item,index) in items" :key="item.ID_UKURAN">
           <td>{{index+1}}</td>
           <td >{{item.UKURAN}}</td>
+          <TD>{{item.NAMA_PEGAWAI}}</TD>
           <td >{{item.CREATE_AT_UKURAN}}</td>
           <td>{{item.UPDATE_AT_UKURAN}}</td>
           <td>{{item.DELETE_AT_UKURAN}}</td>
@@ -85,6 +87,7 @@ export default {
   data: () => ({
     dialog: false,
     search:'',
+    dis:false,
     items: [],
     typeInput: 'new',
     keyword: '',
@@ -100,6 +103,7 @@ export default {
       value: 'ID_UKURAN',
       },
       { text: 'Ukuran', value: 'UKURAN' },
+      { text: 'Nama Pegawai', value: 'NAMA_PEGAWAI' },
       { text: 'Create At Produk', value: 'CREATE_AT_PRODUK' },
       { text: 'Update At Produk', value: 'UPDATE_AT_PRODUK' },
       { text: 'Delete At Produk', value: 'DELETE_AT_PRODUK' },
@@ -115,7 +119,7 @@ export default {
     }),
   methods: {
     sendData(){ 
-      this.ukuran.append('id_pegawai', this.form.id_pegawai); 
+      this.ukuran.append('id_pegawai', this.$session.get('id')); 
       this.ukuran.append('ukuran', this.form.ukuran);
       // console.log(this.ukuran.ukuran);
       var uri = this.$apiUrl + '/ukuran' 
@@ -141,7 +145,7 @@ export default {
       // this.ukuran.append('ukuran', this.form.ukuran);
       const qs = require('qs');
       const data = {
-        id_pegawai: this.form.id_pegawai,
+        id_pegawai: this.$session.get('id'),
         ukuran: this.form.ukuran
       };
       const confih={

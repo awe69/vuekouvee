@@ -8,6 +8,7 @@
             depressed
             dark
             rounded
+            :disabled="dis"
             style="text-transform: none !important;"
             color = "green accent-3"
             @click="dialog = true">               
@@ -105,8 +106,8 @@
                   </template>
                   <v-date-picker v-model="form.tanggal_lahir_pegawai" no-title scrollable>
                     <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                    <v-btn text color="red" @click="menu = false">Cancel</v-btn>
+                    <v-btn text color="red" @click="$refs.menu.save(date)">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-col>
@@ -138,6 +139,7 @@
 export default {
   data: () => ({
     dialog: false,
+    dis: false,
     items: [],
     jabatan:['Admin','Kasir','CS'],
     rules: [v => v.length <= 12 || 'Max 12 '],
@@ -254,12 +256,20 @@ export default {
         this.text = "Try Again";
         this.color = "red";
       });
-    },  
+    },
     getData(){
-      var uri = this.$apiUrl + '/pegawai'
-      this.$http.get(uri,this.ukurans).then(response => {
-      this.pegawais = response.data.Data
-      })
+      if (!this.$session.exists()) {
+      this.$router.push('/login');
+      }else{
+        if (this.$session.get('role') != 'Admin') {
+          this.dis = true ;
+        }else{
+          var uri = this.$apiUrl + '/pegawai'
+          this.$http.get(uri,this.pegawais).then(response => {
+          this.pegawais = response.data.Data
+          })
+        }
+      }
     },
     editHandler(item) {
       this.typeInput = "edit";

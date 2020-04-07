@@ -8,8 +8,11 @@ const LayoutPelanggan = () =>
 function viewPelanggan(view){
     return () => import (`../Pelanggan/Contents/${view}.vue`)
 }
+const Login = () =>
+    import('../Pegawai/Layout/Login.vue');
 const LayoutPegawai = () =>
     import('../Pegawai/Layout/Template.vue');
+
 function PegawaiAdmin(view){
     return () => import(`../Pegawai/Admin/${view}.vue`)
 }
@@ -30,13 +33,26 @@ const routes = [
         ]
     },
     {
+        path:'/login',
+        name:'Login',
+        component:Login,
+    },
+    {
         path:'/pegawai',
         component:LayoutPegawai,
         children:[
             {
                 name:'ProdukAdmin',
                 path:'/pegawai/produk',
-                component:PegawaiAdmin('Produk')
+                component:PegawaiAdmin('Produk'),
+                // beforeEnter(to, from, next){
+                //     if(Vue.prototype.$session.get()){
+                //         next()
+                //     }
+                //     else{
+                //         next('/login')
+                //     }
+                // }
             },
             {
                 name:'UkuranAdmin',

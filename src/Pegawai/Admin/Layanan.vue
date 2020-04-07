@@ -10,6 +10,7 @@
             rounded
             style="text-transform: none !important;"
             color = "green accent-3"
+            :disabled="dis"
             @click="dialog = true">               
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>                   
             Tambah Layanan</v-btn>           
@@ -152,11 +153,12 @@ export default {
     color: null,
     text: '',
     load: false,
-    updatedId:""
+    updatedId:"",
+    dis:false
     }),
   methods: {
     sendData(){ 
-      this.layanan.append('id_pegawai', this.form.id_pegawai); 
+      this.layanan.append('id_pegawai', this.$session.get('id')); 
       this.layanan.append('nama_layanan', this.form.nama_layanan); 
       this.layanan.append('harga_layanan', this.form.hargalayanan); 
       this.layanan.append('id_ukuran', this.form.ukuran.ID_UKURAN); 
@@ -185,7 +187,7 @@ export default {
         nama_layanan: this.form.nama_layanan,
         id_ukuran: this.form.ukuran.ID_UKURAN,
         id_jenishewan: this.form.jenishewan.ID_JENISHEWAN,
-        id_pegawai:this.form.id_pegawai,
+        id_pegawai:this.$session.get('id'),
         harga_layanan:this.form.hargalayanan,
     };
     console.log(data);
@@ -228,23 +230,29 @@ export default {
         this.text = "Try Again";
         this.color = "red";
       });
-    },  
+    },
     getData(){
-      var uri = this.$apiUrl + '/layanan'
-      var uri2 = this.$apiUrl + '/JenisHewan'
-      var uri3 = this.$apiUrl + '/ukuran'
-      this.$http.get(uri,this.layanans).then(response => {
-      this.layanans = response.data.Data
-      // console.log(this.layanans);
-      });
-      this.$http.get(uri2,this.jenishewans).then(response => {
-      this.jenishewans = response.data.Data
-      });
-      this.$http.get(uri3,this.ukurans).then(response => {
-      this.ukurans = response.data.Data
-      });
-      
-
+      if (!this.$session.exists()) {
+      this.$router.push('/login');
+      }else{
+        if (this.$session.get('role') != 'Admin') {
+          this.dis = true ;
+        }else{
+          var uri = this.$apiUrl + '/layanan'
+          var uri2 = this.$apiUrl + '/JenisHewan'
+          var uri3 = this.$apiUrl + '/ukuran'
+          this.$http.get(uri,this.layanans).then(response => {
+          this.layanans = response.data.Data
+          // console.log(this.layanans);
+          });
+          this.$http.get(uri2,this.jenishewans).then(response => {
+          this.jenishewans = response.data.Data
+          });
+          this.$http.get(uri3,this.ukurans).then(response => {
+          this.ukurans = response.data.Data
+          });
+        }
+      }
     },
     editHandler(item) {
       this.typeInput = "edit";

@@ -11,6 +11,7 @@ const vuetify = new Vuetify({
         primary: '#1a1a1d',
         secondary: '#ecce6d',
         third:'#e37222',
+        accent: '#82B1FF',
         anchor: '#8c9eff',
         warning:'#f94333'
       },

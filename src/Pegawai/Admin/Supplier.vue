@@ -8,6 +8,7 @@
             depressed
             dark
             rounded
+            :disabled="dis"
             style="text-transform: none !important;"
             color = "green accent-3"
             @click="dialog = true">               
@@ -38,6 +39,7 @@
           <td >{{item.NAMA_SUPPLIER}}</td>
           <td >{{item.ALAMAT_SUPPLIER}}</td>
           <td >{{item.PHONE_SUPPLIER}}</td>
+          <TD>{{item.NAMA_PEGAWAI}}</TD>
           <td >{{item.CREATE_AT_SUPPLIER}}</td>
           <td>{{item.UPDATE_AT_SUPPLIER}}</td>
           <td>{{item.DELETE_AT_SUPPLIER}}</td>
@@ -91,6 +93,7 @@
 export default {
   data: () => ({
     dialog: false,
+    dis:false,
     items: [],
     typeInput: 'new',
     keyword: '',
@@ -111,6 +114,7 @@ export default {
       { text: 'Nama Supplier', value: 'NAMA_SUPPLIER' },
       { text: 'Alamat Supplier', value: 'ALAMAT_SUPPLIER' },
       { text: 'Phone Supplier', value: 'PHONE_SUPPLIER' },
+      { text: 'Nama Pegawai', value: 'NAMA_PEGAWAI' },
       { text: 'Create At Supplier', value: 'create_at_supplier' },
       { text: 'Update At Supplier', value: 'update_at_supplier' },
       { text: 'Delete At Supplier', value: 'delete_at_supplier' },
@@ -126,7 +130,7 @@ export default {
     }),
   methods: {
     sendData(){ 
-      this.supplier.append('id_pegawai', this.form.id_pegawai); 
+      this.supplier.append('id_pegawai', this.$session.get('id')); 
       this.supplier.append('nama_supplier', this.form.nama_supplier);
       this.supplier.append('alamat_supplier', this.form.alamat_supplier);
       this.supplier.append('phone_supplier', this.form.phone_supplier);
@@ -151,7 +155,7 @@ export default {
     updateData(){ 
     const qs = require('qs');
     const data = {
-      id_pegawai: this.form.id_pegawai,
+      id_pegawai: this.$session.get('id'),
       nama_supplier: this.form.nama_supplier,
       alamat_supplier: this.form.alamat_supplier,
       phone_supplier: this.form.phone_supplier,
@@ -196,10 +200,18 @@ export default {
       });
     },  
     getData(){
-      var uri = this.$apiUrl + '/supplier'
-      this.$http.get(uri,this.ukurans).then(response => {
-      this.suppliers = response.data.Data
-      })
+      if (!this.$session.exists()) {
+      this.$router.push('/login');
+      }else{
+        if (this.$session.get('role') != 'Admin') {
+          this.dis = true ;
+        }else{
+          var uri = this.$apiUrl + '/supplier'
+          this.$http.get(uri,this.ukurans).then(response => {
+          this.suppliers = response.data.Data
+          })
+        }
+      }
     },
     editHandler(item) {
       this.typeInput = "edit";

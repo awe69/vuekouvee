@@ -10,6 +10,7 @@
             rounded
             style="text-transform: none !important;"
             color = "green accent-3"
+            :disabled="dis"
             @click="dialog = true">               
               <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>                   
             Tambah Jenis hewan</v-btn>           
@@ -36,6 +37,7 @@
         <tr v-for="(item,index) in items" :key="item.ID_JENISHEWAN">
           <td>{{index+1}}</td>
           <td >{{item.JENISHEWAN}}</td>
+          <td >{{item.NAMA_PEGAWAI}}</td>
           <td >{{item.CREATE_AT_JHEWAN}}</td>
           <td>{{item.UPDATE_AT_JHEWAN}}</td>
           <td>{{item.DELETE_AT_JHEWAN}}</td>
@@ -86,8 +88,9 @@ export default {
     items: [],
     typeInput: 'new',
     keyword: '',
+    dis:false,
     form:{
-      id_pegawai: 1,
+      id_pegawai: 0,
       jenishewan: '',
     },
     errors:"",
@@ -99,6 +102,7 @@ export default {
       value: 'ID_JENISHEWAN',
       },
       { text: 'Jenis Hewan', value: 'JENISHEWAN',sortable: false, },
+      { text: 'Nama Pegawai', value: 'NAMA_PEGAWAI',sortable: false, },
       { text: 'Create At Jenis Hewan', value: 'create_at_jhewan',sortable: false, },
       { text: 'Update At Jenis Hewan', value: 'update_at_jhewan',sortable: false, },
       { text: 'Delete At Jenis Hewan', value: 'delete_at_jhewan',sortable: false, },
@@ -114,7 +118,7 @@ export default {
     }),
   methods: {
     sendData(){ 
-      this.jhewan.append('id_pegawai', this.form.id_pegawai); 
+      this.jhewan.append('id_pegawai', this.$session.get('id')); 
       this.jhewan.append('jenishewan', this.form.jenishewan);
       var uri = this.$apiUrl + '/jenishewan' 
       this.load = true;
@@ -137,7 +141,7 @@ export default {
     updateData(){ 
     const qs = require('qs');
     const data = {
-      id_pegawai: this.form.id_pegawai,
+      id_pegawai: this.$session.get('id'),
       jenishewan: this.form.jenishewan,
     };
     const confih={
@@ -179,12 +183,21 @@ export default {
         this.text = "Try Again";
         this.color = "red";
       });
-    },  
+    },
     getData(){
-      var uri = this.$apiUrl + '/jenishewan'
-      this.$http.get(uri,this.jhewans).then(response => {
-      this.jhewans = response.data.Data
-      })
+      if (!this.$session.exists()) {
+      this.$router.push('/login');
+      }else{
+        if (this.$session.get('role') != 'Admin') {
+          this.dis = true ;
+        }else{
+          console.log(this.$session.get('role'))
+          var uri = this.$apiUrl + '/jenishewan'
+          this.$http.get(uri,this.jhewans).then(response => {
+          this.jhewans = response.data.Data
+          })
+        }
+      }
     },
     editHandler(item) {
       this.typeInput = "edit";

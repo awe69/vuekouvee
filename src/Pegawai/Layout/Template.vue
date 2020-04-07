@@ -12,7 +12,7 @@
           v-model="item.active"
           no-action
         >
-        <template v-slot:activator>
+        <template v-slot:activator >
           <v-list-item-content>
             <v-icon>{{item.icon}}</v-icon>
           </v-list-item-content>
@@ -44,6 +44,10 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Application</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn color="red" text ink @click="logout()">LogOut</v-btn>
+      </v-toolbar-items>
     </v-app-bar>
 
     <v-content>
@@ -97,6 +101,12 @@
             ]
           },
         ]
+      }
+    },
+    methods:{
+      logout(){
+        this.$session.destroy();
+        this.$router.push('/');
       }
     }
   }

@@ -8,6 +8,7 @@
             depressed
             dark
             rounded
+            :disabled="dis"
             style="text-transform: none !important;"
             color = "green accent-3"
             @click="dialog = true">               
@@ -90,8 +91,8 @@
                   </template>
                   <v-date-picker v-model="form.tanggal_lahir_pelanggan" no-title scrollable>
                     <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                    <v-btn text color="red" @click="menu = false">Cancel</v-btn>
+                    <v-btn text color="red" @click="$refs.menu.save(date)">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-col>
@@ -121,6 +122,7 @@ export default {
     dialog: false,
     items: [],
     typeInput: 'new',
+    dis:false,
     keyword: '',
     date: new Date().toISOString().substr(0, 10),
     menu: false,
@@ -159,7 +161,7 @@ export default {
     }),
   methods: {
     sendData(){ 
-      this.pelanggan.append('id_pegawai', this.form.id_pegawai);
+      this.pelanggan.append('id_pegawai', this.$session.get('id'));
       this.pelanggan.append('nama_pelanggan', this.form.nama_pelanggan);
       this.pelanggan.append('tgl_lahir_pelanggan', this.form.tanggal_lahir_pelanggan);
       this.pelanggan.append('alamat_pelanggan', this.form.alamat_pelanggan);
@@ -186,7 +188,7 @@ export default {
     updateData(){ 
       const qs = require('qs');
       const data = {
-        id_pegawai: this.form.id_pegawai,
+        id_pegawai: this.$session.get('id'),
         tgl_lahir_pelanggan:this.form.tanggal_lahir_pelanggan,
         alamat_pelanggan:this.form.alamat_pelanggan,
         phone_pelanggan:this.form.phone_pelanggan,
@@ -234,10 +236,18 @@ export default {
       });
     },  
     getData(){
-      var uri = this.$apiUrl + '/pelanggan'
-      this.$http.get(uri,this.pelanggan).then(response => {
-      this.pelanggans = response.data.Data
-      })
+      if (!this.$session.exists()) {
+      this.$router.push('/login');
+      }else{
+        if (this.$session.get('role') != 'CS') {
+          this.dis = true ;
+        }else{
+          var uri = this.$apiUrl + '/pelanggan'
+          this.$http.get(uri,this.pelanggan).then(response => {
+          this.pelanggans = response.data.Data
+          })
+        }
+      }
     },
     editHandler(item) {
       this.typeInput = "edit";
