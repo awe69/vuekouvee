@@ -56,19 +56,19 @@
       </tbody>
     </template>  
     </v-data-table>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog light v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Pelanggan</span>
+          <span class="headline">Pelanggan</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Nama Pelanggan" v-model="form.nama_pelanggan" required></v-text-field>
+                <v-text-field color="blue" label="Nama Pelanggan" v-model="form.nama_pelanggan" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Phone Pelanggan" v-model="form.phone_pelanggan" required></v-text-field>
+                <v-text-field color="blue" label="Phone Pelanggan" v-model="form.phone_pelanggan" required></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-menu
@@ -97,7 +97,7 @@
                 </v-menu>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Alamat Pelanggan" v-model="form.alamat_pelanggan" required></v-text-field>
+                <v-text-field color="blue" label="Alamat Pelanggan" v-model="form.alamat_pelanggan" required></v-text-field>
               </v-col>
             </v-row>
           </v-container>

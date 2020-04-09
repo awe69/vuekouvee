@@ -30,6 +30,7 @@
     :items="produks"
     :items-per-page="10"
     :search="keyword"
+    light
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -66,37 +67,38 @@
       </tbody>
     </template>  
     </v-data-table>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog light="" v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Produk</span>
+          <span class="headline">Produk</span>
         </v-card-title>
         <v-card-text>
-          <v-container>
+          <v-container >
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Nama Produk" v-model="form.nama_produk" required></v-text-field>
+                <v-text-field color="blue" label="Nama Produk" v-model="form.nama_produk" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Min Stock" v-model="form.min_stock" required></v-text-field>
+                <v-text-field color="blue" label="Min Stock" v-model="form.min_stock" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Stock" v-model="form.stock" required></v-text-field>
+                <v-text-field color="blue" label="Stock" v-model="form.stock" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Satuan Produk" v-model="form.satuan_produk" required></v-text-field>
+                <v-text-field color="blue" label="Satuan Produk" v-model="form.satuan_produk" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Harga Beli" v-model="form.harga_beli" required></v-text-field>
+                <v-text-field color="blue" label="Harga Beli" v-model="form.harga_beli" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Harga Jual" v-model="form.harga_jual" required></v-text-field>
+                <v-text-field color="blue" label="Harga Jual" v-model="form.harga_jual" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-file-input 
-                label= "Gambar Produk" 
-                v-model="form.gambar"
-                ></v-file-input>
+                <v-checkbox v-model="cek" class="mx-2" label="Enable To Upload Foto"></v-checkbox>
+                <v-file-input v-model="form.gambar" label="Select Image File*"
+                  accept="image/png, image/jpeg, image/bmp, image/jpg" 
+                  prepend-icon="mdi-camera" :disabled="cek">
+                </v-file-input>
               </v-col>
             </v-row>
           </v-container>
@@ -120,6 +122,7 @@ export default {
   data: () => ({
     dialog: false,
     dis:false,
+    cek:true,
     items: [],
     typeInput: 'new',
     keyword: '',
@@ -131,7 +134,7 @@ export default {
       satuan_produk:"",
       harga_beli:0,
       harga_jual:0,
-      gambar:''
+      gambar:null
     },
     errors:"",
     headers: [
@@ -159,6 +162,7 @@ export default {
     color: null,
     text: '',
     load: false,
+    temp:'',
     updatedId:"",
     }),
   methods: {
@@ -178,7 +182,8 @@ export default {
         this.color = 'green'; 
         this.text = response.data.Message; 
         this.load = false; 
-        this.dialog = false 
+        this.dialog = false
+        this.cek=true 
         this.getData(); 
         this.resetForm(); 
       }).catch(error =>{ 
@@ -197,7 +202,13 @@ export default {
       this.produk.append('satuan_produk', this.form.satuan_produk);
       this.produk.append('harga_beli', this.form.harga_beli);
       this.produk.append('harga_jual', this.form.harga_jual);
-      this.produk.append('gambar',this.form.gambar);
+      if(this.cek){
+        this.produk.append('gambar',this.temp);
+        console.log(this.temp);
+      }else{
+        this.produk.append('gambar',this.form.gambar);
+        console.log(this.form.gambar);
+      } 
       var uri =this.$apiUrl + '/produk/' + this.updatedId
       this.load = true;
       this.$http.post(uri,this.produk).then(response =>{ 
@@ -205,7 +216,8 @@ export default {
         this.color = 'green'; 
         this.text = response.data.Message; 
         this.load = false; 
-        this.dialog = false 
+        this.dialog = false
+        this.cek=true 
         this.getData(); 
         this.resetForm(); 
       }).catch(error =>{ 
@@ -238,8 +250,7 @@ export default {
       }else{
         if (this.$session.get('role') != 'Admin') {
           this.dis = true ;
-        }else{
-          console.log(this.$session.get('role'))
+        }else{  
           var uri = this.$apiUrl + '/produk'
           this.$http.get(uri,this.produks).then(response => {
           this.produks = response.data.Data
@@ -255,8 +266,8 @@ export default {
       this.form.satuan_produk=item.SATUAN_PRODUK;
       this.form.harga_beli=item.HARGA_BELI;
       this.form.harga_jual=item.HARGA_JUAL;
-      this.form.gambar=item.GAMBAR;
-      console.log(this.form.gambar);
+      this.form.gambar= item.GAMBAR;
+      this.temp = item.GAMBAR;
       (this.updatedId = item.ID_PRODUK);
       this.dialog = true;
     },
@@ -273,7 +284,7 @@ export default {
       if (this.typeInput === "new") {
         this.sendData();
       } else {
-        console.log("dddd");
+        
         this.updateData();
       }
     },
@@ -288,7 +299,7 @@ export default {
         harga_jual:0,
         gambar:''
       };
-    }
+    },
   },
   mounted() {
     this.getData();

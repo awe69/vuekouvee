@@ -30,6 +30,7 @@
     :items="pegawais"
     :items-per-page="10"
     :search="keyword"
+    light
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -57,16 +58,16 @@
       </tbody>
     </template>  
     </v-data-table>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog light v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Pegawai</span>
+          <span class="headline">Pegawai</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Nama Pegawai" v-model="form.nama_pegawai" required></v-text-field>
+                <v-text-field color="blue" label="Nama Pegawai" v-model="form.nama_pegawai" required></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-select
@@ -83,6 +84,7 @@
                 v-model="form.phone_pegawai" 
                 :rules="rules"
                 counter="12"
+                color="error"
                 required></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -106,17 +108,17 @@
                   </template>
                   <v-date-picker v-model="form.tanggal_lahir_pegawai" no-title scrollable>
                     <v-spacer></v-spacer>
-                    <v-btn text color="red" @click="menu = false">Cancel</v-btn>
-                    <v-btn text color="red" @click="$refs.menu.save(date)">OK</v-btn>
+                    <v-btn text color="blue" @click="menu = false">Cancel</v-btn>
+                    <v-btn text color="blue" @click="$refs.menu.save(date)">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Alamat Pegawai" v-model="form.alamat_pegawai" required></v-text-field>
+                <v-text-field color="blue" label="Alamat Pegawai" v-model="form.alamat_pegawai" required></v-text-field>
               </v-col>
               
               <v-col cols="12">
-                <v-text-field label="Password" v-model="form.password" required></v-text-field>
+                <v-text-field label="Password" color="blue" v-model="form.password" required></v-text-field>
               </v-col>
             </v-row>
           </v-container>

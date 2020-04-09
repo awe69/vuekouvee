@@ -9,7 +9,7 @@
       <v-toolbar-items>
         <v-btn text href="#home">HOME</v-btn>
         <v-btn text href="#product">PRODUCT</v-btn>
-        <v-btn text href="#service">SERVICE</v-btn>
+        <v-btn text href="#service">SERVICES</v-btn>
         <v-btn text href="#aboutus">ABOUT US</v-btn>
         <v-btn text href="#contactus">CONTACT US</v-btn>
         <v-btn text ink @click="$router.push('/login')">Login</v-btn>

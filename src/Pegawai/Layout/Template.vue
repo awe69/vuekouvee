@@ -1,15 +1,17 @@
 <template>
-  <v-app id="inspire">
+  <v-app  id="inspire">
     <v-navigation-drawer
       v-model="drawer"
       app
       clipped
+      color="blue"
     >
       <v-list dense="">
         <v-list-group
           v-for="item in items"
           :key="item.title"
           v-model="item.active"
+          
           no-action
         >
         <template v-slot:activator >
@@ -25,6 +27,7 @@
           v-for="subItem in item.items"
           :key="subItem.title"
           router :to="subItem.route"
+          
           link
         >
         <v-list-item-content>
@@ -40,17 +43,18 @@
 
     <v-app-bar
       app
+      color="secondary"
       clipped-left
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Menu</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn color="red" text ink @click="logout()">LogOut</v-btn>
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-content>
+    <v-content class="red darken-2">
       <router-view></router-view>
     </v-content>
 

@@ -30,6 +30,7 @@
     :items="suppliers"
     :search="keyword"
     :items-per-page="10"
+    light
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -55,22 +56,22 @@
       </tbody>
     </template>  
     </v-data-table>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog light v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Ukuran</span>
+          <span class="headline">Supplier</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Nama Supplier" v-model="form.nama_supplier" required></v-text-field>
+                <v-text-field color="blue" label="Nama Supplier" v-model="form.nama_supplier" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Alamat Supplier" v-model="form.alamat_supplier" required></v-text-field>
+                <v-text-field color="blue" label="Alamat Supplier" v-model="form.alamat_supplier" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Phone Supplier" v-model="form.phone_supplier" required></v-text-field>
+                <v-text-field color="blue" label="Phone Supplier" v-model="form.phone_supplier" required></v-text-field>
               </v-col>
             </v-row>
           </v-container>

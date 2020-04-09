@@ -30,6 +30,7 @@
     :items="hewans"
     :items-per-page="10"
     :search="keyword"
+    light
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -56,16 +57,16 @@
       </tbody>
     </template>  
     </v-data-table>
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog light v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Hewan</span>
+          <span class="headline">Hewan</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Nama Hewan" v-model="form.nama_hewan" required></v-text-field>
+                <v-text-field color="blue" label="Nama Hewan" v-model="form.nama_hewan" required></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-select
