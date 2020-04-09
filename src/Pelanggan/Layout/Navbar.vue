@@ -12,7 +12,7 @@
         <v-btn text href="#service">SERVICES</v-btn>
         <v-btn text href="#aboutus">ABOUT US</v-btn>
         <v-btn text href="#contactus">CONTACT US</v-btn>
-        <v-btn text ink @click="$router.push('/login')">Login</v-btn>
+        <v-btn text ink @click="$router.push('/login')">LOGIN</v-btn>
       </v-toolbar-items>  
     </v-app-bar>
 

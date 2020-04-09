@@ -7,7 +7,7 @@
             <v-flex xs12 sm8 md4>
               <v-card class="elevation-12">
                 <v-toolbar dark color="red darken-4">
-                  <v-toolbar-title>Login to Kouvee PetShop</v-toolbar-title>
+                  <v-toolbar-title>Employee Kouvee Pet Shop Only</v-toolbar-title>
                   <v-spacer></v-spacer>
                 </v-toolbar>
                 <v-card-text>
