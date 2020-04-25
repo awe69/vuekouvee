@@ -94,7 +94,7 @@
                 <v-text-field color="blue" label="Harga Jual" v-model="form.harga_jual" required></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-checkbox v-model="cek" class="mx-2" label="Enable To Upload Foto"></v-checkbox>
+                <v-checkbox v-model="cek" class="mx-2" label="Unable To Upload Foto"></v-checkbox>
                 <v-file-input v-model="form.gambar" label="Select Image File*"
                   accept="image/png, image/jpeg, image/bmp, image/jpg" 
                   prepend-icon="mdi-camera" :disabled="cek">
@@ -127,7 +127,6 @@ export default {
     typeInput: 'new',
     keyword: '',
     form:{
-      id_pegawai: 1,
       nama_produk: "",
       stock: 0,
       min_stock: 0,
@@ -290,7 +289,7 @@ export default {
     },
     resetForm() {
       this.form = {
-        id_pegawai: 0,
+        
         nama_produk: '',
         stock: 0,
         min_stock: 0,

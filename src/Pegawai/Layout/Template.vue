@@ -22,12 +22,11 @@
             <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item-content>
         </template>
-
-        <v-list-item
+        <div class="justify-content-start">
+          <v-list-item
           v-for="subItem in item.items"
           :key="subItem.title"
           router :to="subItem.route"
-          
           link
         >
         <v-list-item-content>
@@ -37,6 +36,7 @@
           <v-list-item-title v-text="subItem.title"></v-list-item-title>
         </v-list-item-content>
         </v-list-item>
+        </div>
       </v-list-group>
       </v-list>
     </v-navigation-drawer>
@@ -92,7 +92,8 @@
             items: [
               { title: 'Pelanggan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/pelanggan'},
               { title: 'Hewan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/hewan'},
-              { title: 'Transaksi Produk',icons:'mdi-checkbox-blank-circle',route:''},
+              { title: 'Transaksi Produk',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TransaksiProduk'},
+              { title: 'Show TP',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TampilTransaksiProduk'},
               { title: 'Transaksi Layanan',icons:'mdi-checkbox-blank-circle',route:''},
             ]
           },

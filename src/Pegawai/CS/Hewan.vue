@@ -150,7 +150,7 @@ export default {
       nama_hewan: "",
       jenishewan: {JENISHEWAN:"",ID_JENISHEWAN:0},
       cust: {NAMA_PELANGGAN:"",ID_PELANGGAN:0},
-      tanggal_lahir_pelanggan:"",
+      tanggal_lahir_hewan:"",
     },
     errors:"",
     headers: [

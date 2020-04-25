@@ -84,7 +84,7 @@
                 v-model="form.phone_pegawai" 
                 :rules="rules"
                 counter="12"
-                color="error"
+                color="blue"
                 required></v-text-field>
               </v-col>
               <v-col cols="12">

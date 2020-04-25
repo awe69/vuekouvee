@@ -23,7 +23,7 @@ function PegawaiCS(view){
 const routes = [
     {
         path:'/',
-        component: LayoutPelanggan,
+        component:LayoutPelanggan,
         children:[
             {
                 name:'HomePelanggan',
@@ -45,14 +45,6 @@ const routes = [
                 name:'ProdukAdmin',
                 path:'/pegawai/produk',
                 component:PegawaiAdmin('Produk'),
-                // beforeEnter(to, from, next){
-                //     if(Vue.prototype.$session.get()){
-                //         next()
-                //     }
-                //     else{
-                //         next('/login')
-                //     }
-                // }
             },
             {
                 name:'UkuranAdmin',
@@ -94,6 +86,16 @@ const routes = [
                 name:'HewanCS',
                 path:'/pegawai/hewan',
                 component:PegawaiCS('Hewan')
+            },
+            {
+                name:'TransPCS',
+                path:'/pegawai/TransaksiProduk',
+                component:PegawaiCS('TransaksiProduk')
+            },
+            {
+                name:'ShowTransPCS',
+                path:'/pegawai/TampilTransaksiProduk',
+                component:PegawaiCS('TampilTransaksiProduk')
             },
         ]
     }

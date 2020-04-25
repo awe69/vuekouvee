@@ -30,6 +30,7 @@
     :items="pelanggans"
     :items-per-page="10"
     :search="keyword"
+    light
     class="elevation-1"
     >
     <template v-slot:body="{ items }">
@@ -92,7 +93,7 @@
                   <v-date-picker v-model="form.tanggal_lahir_pelanggan" no-title scrollable>
                     <v-spacer></v-spacer>
                     <v-btn text color="red" @click="menu = false">Cancel</v-btn>
-                    <v-btn text color="red" @click="$refs.menu.save(date)">OK</v-btn>
+                    <v-btn text color="red" @click="$refs.menu.save(form.tanggal_lahir_pelanggan)">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-col>
@@ -131,7 +132,7 @@ export default {
       nama_pelanggan: "",
       alamat_pelanggan:"",
       phone_pelanggan:"",
-      tanggal_lahir_pelanggan:"",
+      tanggal_lahir_pelanggan:new Date().toISOString().substr(0, 10),
     },
     errors:"",
     headers: [

@@ -190,10 +190,18 @@ export default {
       });
     },  
     getData(){
-      var uri = this.$apiUrl + '/ukuran'
+      if (!this.$session.exists()) {
+      this.$router.push('/login');
+      }else{
+        if (this.$session.get('role') != 'Admin') {
+          this.dis = true ;
+        }else{
+          var uri = this.$apiUrl + '/ukuran'
       this.$http.get(uri,this.ukurans).then(response => {
       this.ukurans = response.data.Data
       })
+        }
+      }
     },
     editHandler(item) {
       this.typeInput = "edit";
