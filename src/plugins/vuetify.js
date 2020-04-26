@@ -7,15 +7,15 @@ Vue.use(Vuetify)
 const vuetify = new Vuetify({
   theme: {
     themes: {
-      dark: {
-        primary: '#1a1a1d',
+      light: {
+        primary: '#30475e',
         secondary: '#ecce6d',
         third:'#e37222',
         accent: '#82B1FF',
         anchor: '#8c9eff',
-        warning:'#f94333'
+        warning:'#f94333',
       },
-    },dark:true
+    },light:true
   },
 })
 export default vuetify;

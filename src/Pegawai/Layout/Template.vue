@@ -11,7 +11,6 @@
           v-for="item in items"
           :key="item.title"
           v-model="item.active"
-          
           no-action
         >
         <template v-slot:activator >
@@ -57,10 +56,6 @@
     <v-content class="red darken-2">
       <router-view></router-view>
     </v-content>
-
-    <v-footer app>
-      <span>&copy; 2019</span>
-    </v-footer>
   </v-app>
 </template>
 
@@ -94,7 +89,8 @@
               { title: 'Hewan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/hewan'},
               { title: 'Transaksi Produk',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TransaksiProduk'},
               { title: 'Show TP',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TampilTransaksiProduk'},
-              { title: 'Transaksi Layanan',icons:'mdi-checkbox-blank-circle',route:''},
+              { title: 'Transaksi Layanan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TransaksiLayanan'},
+              { title: 'Show TL',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TampilTransaksiLayanan'},
             ]
           },
           {

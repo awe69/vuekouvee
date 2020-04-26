@@ -97,6 +97,16 @@ const routes = [
                 path:'/pegawai/TampilTransaksiProduk',
                 component:PegawaiCS('TampilTransaksiProduk')
             },
+            {
+                name:'ShowTransLCS',
+                path:'/pegawai/TampilTransaksiLayanan',
+                component:PegawaiCS('TampilTransaksiLayanan')
+            },
+            {
+                name:'TransLCS',
+                path:'/pegawai/TransaksiLayanan',
+                component:PegawaiCS('TransaksiLayanan')
+            },
         ]
     }
 ]

@@ -2,17 +2,17 @@
   <v-app>
     <v-app-bar app class="primary">
       <v-toolbar-title class="headline text-uppercase">
-        <span>Kouvee</span>
-        <span class="font-weight-light">         Pet Shop</span>
+        <span style="color:white">Kouvee</span>
+        <span class="font-weight-light" style="color:white">         Pet Shop</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text href="#home">HOME</v-btn>
-        <v-btn text href="#product">PRODUCT</v-btn>
-        <v-btn text href="#service">SERVICES</v-btn>
-        <v-btn text href="#aboutus">ABOUT US</v-btn>
-        <v-btn text href="#contactus">CONTACT US</v-btn>
-        <v-btn text ink @click="$router.push('/login')">LOGIN</v-btn>
+        <v-btn style="color:white" text href="#home">HOME</v-btn>
+        <v-btn style="color:white" text href="#product">PRODUCT</v-btn>
+        <v-btn style="color:white" text href="#service">SERVICES</v-btn>
+        <v-btn style="color:white" text href="#aboutus">ABOUT US</v-btn>
+        <v-btn style="color:white" text href="#contactus">CONTACT US</v-btn>
+        <v-btn style="color:white" text ink @click="$router.push('/login')">LOGIN</v-btn>
       </v-toolbar-items>  
     </v-app-bar>
 
