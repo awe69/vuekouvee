@@ -2,7 +2,19 @@
   <v-container grid-list-md fluid mb-1 mt-2>
       <v-container fluid>
         <h2 class="text-md-center">Data Transaksi Produk</h2>
-        <v-layout row wrap style="margin:10px">           
+        <v-layout row wrap style="margin:10px">
+          <v-flex xs6>
+            <v-btn
+            depressed
+            dark
+            rounded
+            style="text-transform: none !important;"
+            color = "green accent-3"
+            :disabled="dis"
+            @click="dialog = true">               
+              <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>                   
+            Tambah Transaksi Produk</v-btn>           
+          </v-flex>           
           <v-flex xs6 class="text-right">               
             <v-text-field                 
             v-model="keyword"                 
@@ -26,9 +38,8 @@
         <tr v-for="(item,index) in items" :key="item.ID_TRANSAKSI_PRODUK">
           <td>{{index+1}}</td>
           <td >{{item.ID_TRANSAKSI_PRODUK}}</td>
-          <td>{{item.NAMA_CS}}</td>
+          <td>{{item.NAMA_KASIR}}</td>
           <td>{{item.NAMA_PELANGGAN}}</td>
-          <td>{{item.NAMA_HEWAN}}</td>
           <td v-if="item.STATUS_TRANSAKSI_PRODUK==0">BELUM LUNAS</td>
           <td v-else>LUNAS</td>
           <td>{{item.TGL_TRANSAKSI}}</td>
@@ -49,7 +60,7 @@
         </tr>
       </tbody>
     </template>  
-    </v-data-table>
+    </v-data-table> 
 
     <v-dialog v-model="dialogWarning1" persistent max-width="600px">
       <v-card>
@@ -88,6 +99,12 @@
               <v-col cols="12">
                 <v-text-field color="blue" label="Peg ID Pegawai" v-model="form.peg_id_pegawai" required></v-text-field>
               </v-col>
+              <v-col cols="12">
+                <v-text-field color="blue" label="Status Transaksi Produk" v-model="form.status_transaksi_produk" required></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field color="blue" label="Diskon Produk" v-model="form.diskon_produk" required></v-text-field>
+              </v-col>
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -100,7 +117,6 @@
       </v-card>
     </v-dialog>
 
-
     <v-dialog v-model="dialogdetail" persistent max-width="1500px" @keydown.esc="dialogdetail = false">
             <v-card>
                 <v-container grid-list-md mb-0>
@@ -109,13 +125,6 @@
                     </v-btn>
                 <h2 class="text-md-center">Data Detail</h2>
                 <v-layout row wrap style="margin:10px">
-                  <v-flex xs6>
-                  <v-btn depressed dark rounded style="text-transform: none !important;" color="green accent-3"
-                    :disabled="dis" @click="addDetail()">
-                    <v-icon size="18" class="mr-2">mdi-pencil-plus</v-icon>
-                    Tambah Detail Transaksi Produk
-                  </v-btn>
-                  </v-flex>
                     <v-flex xs6>
                     </v-flex>
                     <v-flex xs6 class="text-right">
@@ -196,13 +205,13 @@
                         <v-spacer></v-spacer>
                         <v-btn color="blue darken-1" text @click="dialog1 = false">Close</v-btn>
                         <v-btn color="blue darken-1" text @click="setForm2()">Save</v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
-                  </v-container>
-                  </v-card>
-                  </v-dialog>
-    
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+            </v-container>
+            </v-card>
+        </v-dialog>
+
     <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="3000">
       {{ text }}
       <v-btn dark text @click="snackbar = false">Close</v-btn>
@@ -213,6 +222,7 @@
 export default {
   data: () => ({
     varAdd: '',
+    varCheck: false,
     deleteitem: [],
     dialogWarning1: false,
     dialogWarning2: false,
@@ -233,7 +243,7 @@ export default {
     },
     form:{
       id_pegawai: 1,
-      id_hewan: 1,
+      id_produk: 1,
       peg_id_pegawai: 1,
       status_transaksi_produk: 0,
       tgl_transaksi:"",
@@ -249,9 +259,8 @@ export default {
       value: 'id_transaksi_produk',
       },
       { text: 'ID Transaksi Produk', value: 'indeks',sortable: false },
-      { text: 'Nama CS', value: 'NAMA_CS',sortable: true},
+      { text: 'Nama Kasir', value: 'NAMA_KASIR',sortable: true},
       { text: 'Nama Pelanggan', value: 'NAMA_PELANGGAN',sortable: true },
-      { text: 'Nama Hewan', value: 'NAMA_HEWAN',sortable: false },
       { text: 'Status Transaksi Produk', value: 'STATUS_TRANSAKSI_PRODUK',sortable: true },
       { text: 'Tgl Tranksaksi', value: 'TGL_TRANSAKSI',sortable: true },
       { text: 'Subtotal Transaksi Produk', value: 'SUBTOTAL_TRANSAKSI_PRODUK',sortable: true },
@@ -283,8 +292,8 @@ export default {
     text: '',
     load: false,
     temp:'',
-    updatedId:"",
-    updatedId2:"",
+    updatedId: '',
+    updatedId2:'',
     updatedId3: '',
     itemss:[],
     listItem: [],
@@ -306,7 +315,6 @@ export default {
       }
       
     },
-
     cancelDialog(){
       this.dialogWarning1 = false;
       this.snackbar = true;
@@ -323,7 +331,6 @@ export default {
       this.dialog1=true,
       this.form2.id_transaksi_produk = this.varAdd
     },
-
     detailtransaksi(item){
       if (!this.$session.exists()) {
       this.$router.push('/login');
@@ -331,7 +338,6 @@ export default {
         if (this.$session.get('role') != 'Admin') {
           this.dis = true ;
         }else{  
-          this.varAdd = item.ID_TRANSAKSI_PRODUK
           var uri = this.$apiUrl + '/detiltransaksiproduk/' + item.ID_TRANSAKSI_PRODUK
           this.$http.get(uri).then(response => {
             this.itemss = response.data.Data
@@ -345,7 +351,7 @@ export default {
       if (!this.$session.exists()) {
       this.$router.push('/login');
       }else{
-        if (this.$session.get('role') != 'CS') {
+        if (this.$session.get('role') != 'Kasir') {
           this.dis = true ;
         }else{  
           var uri = this.$apiUrl + '/transaksiproduk'
@@ -357,9 +363,11 @@ export default {
     },
     sendData(){
       this.transaksi_produk.append('indeks', this.$session.get('id')); 
-      this.transaksi_produk.append('id_pegawai', this.form.id_pegawai); 
-      this.transaksi_produk.append('peg_id_pegawai', this.form.peg_id_pegawai);  
-      this.transaksi_produk.append('id_hewan', this.form.id_hewan); 
+      this.transaksi_produk.append('id_pegawai', this.form.id_pegawai);
+      this.transaksi_produk.append('peg_id_pegawai', this.form.peg_id_pegawai);
+      this.transaksi_produk.append('status_transaksi_produk', this.form.status_transaksi_produk);  
+      this.transaksi_produk.append('id_hewan', this.form.id_hewan);
+      this.transaksi_produk.append('diskon_produk', this.form.diskon_produk); 
       var uri =this.$apiUrl + '/transaksiproduk' 
       this.load = true;
       this.$http.post(uri,this.transaksi_produk).then(response =>{ 
@@ -379,65 +387,66 @@ export default {
         this.load = false; 
       }) 
     },
-    sendData2() {
-      this.detil_transaksi_produk.append('id_detil_transaksi', this.$session.get('id'));
-      this.detil_transaksi_produk.append('id_transaksi_produk', this.form2.id_transaksi_produk);
-      this.detil_transaksi_produk.append('id_produk', this.form2.id_produk);
-      this.detil_transaksi_produk.append('jumlah_produk', this.form2.jumlah_produk);
-      if(this.form2.jumlah_produk == 0)
-      {
-        this.snackbar = true;
-        this.text = 'JUMLAH PRODUK TIDAK BOLEH 0';
-        this.color = 'red';
-        this.load = false;
-      }
-      // else if (this.form2.jumlah_produk != 0) {
-      //   var i;
-      //   for (i = 0; i < this.listItem.length; i++) {
-      //     if (this.form2.id_produk == this.listItem[i].ID_PRODUK && this.form2.jumlah_produk > this.listItem[i].STOCK) {
-      //       this.varCheck=false
-      //     }
-      //     else if(this.form2.id_produk == this.listItem[i].ID_PRODUK && this.form2.jumlah_produk <= this.listItem[i].STOCK){
-      //       this.varCheck=true
-      //     }
-      //   }
-      //   if(varCheck=false){
-      //     this.snackbar = true;
-      //       this.text = "JUMLAH PRODUK MELEBIHI STOK";
-      //       this.color = 'red';
-      //       this.load = false;
-      //   }
-      // }
-        else {
-          var uri = this.$apiUrl + '/detiltransaksiproduk'
-          this.load = true;
-          this.$http.post(uri, this.detil_transaksi_produk).then(response => {
-            this.snackbar = true;
-            this.color = 'green';
-            this.text = response.data.Message;
-            this.load = false;
-            this.dialog1 = false
-            this.cek = true
-            var uri2 = this.$apiUrl + '/detiltransaksiproduk/' + this.varAdd
-            this.$http.get(uri2).then(response => {
-              this.itemss = response.data.Data
-            })
-            this.resetForm2();
-          }).catch(error => {
-            this.errors = error
-            this.snackbar = true;
-            this.text = 'Try Again';
-            this.color = 'red';
-            this.load = false;
-          })
-        }
 
+    // sendData2() {
+    //   this.detil_transaksi_produk.append('id_detil_transaksi', this.$session.get('id'));
+    //   this.detil_transaksi_produk.append('id_transaksi_produk', this.form2.id_transaksi_produk);
+    //   this.detil_transaksi_produk.append('id_produk', this.form2.id_produk);
+    //   this.detil_transaksi_produk.append('jumlah_produk', this.form2.jumlah_produk);
+    //   if(this.form2.jumlah_produk == 0)
+    //   {
+    //     this.snackbar = true;
+    //     this.text = 'JUMLAH PRODUK TIDAK BOLEH 0';
+    //     this.color = 'red';
+    //     this.load = false;
+    //   }
+    //   else if (this.form2.jumlah_produk != 0) {
+    //     var i;
+    //     for (i = 0; i < this.listItem.length; i++) {
+    //       if (this.form2.id_produk == this.listItem[i].ID_PRODUK && this.form2.jumlah_produk > this.listItem[i].STOCK) {
+    //         this.varCheck=false
+    //       }
+    //       else if(this.form2.id_produk == this.listItem[i].ID_PRODUK && this.form2.jumlah_produk <= this.listItem[i].STOCK){
+    //         this.varCheck=true
+    //       }
+    //     }
+    //     if(varCheck=false){
+    //       this.snackbar = true;
+    //         this.text = "JUMLAH PRODUK MELEBIHI STOK";
+    //         this.color = 'red';
+    //         this.load = false;
+    //     }
+    //     else {
+    //       var uri = this.$apiUrl + '/detiltransaksiproduk'
+    //       this.load = true;
+    //       this.$http.post(uri, this.detil_transaksi_produk).then(response => {
+    //         this.snackbar = true;
+    //         this.color = 'green';
+    //         this.text = response.data.Message;
+    //         this.load = false;
+    //         this.dialog1 = false
+    //         this.cek = true
+    //         var uri2 = this.$apiUrl + '/detiltransaksiproduk/' + this.varAdd
+    //         this.$http.get(uri2).then(response => {
+    //           this.itemss = response.data.Data
+    //         })
+    //         this.resetForm2();
+    //       }).catch(error => {
+    //         this.errors = error
+    //         this.snackbar = true;
+    //         this.text = 'Try Again';
+    //         this.color = 'red';
+    //         this.load = false;
+    //       })
+    //     }
+    //     }
       
-    },
+    // },
+
     updateData(){
-      this.transaksi_produk.append('id_transaksi_produk', this.form.id_transaksi_produk);  
-      this.transaksi_produk.append('id_pegawai', this.form.id_pegawai);  
+      this.transaksi_produk.append('id_transaksi_produk', this.form.id_transaksi_produk);   
       this.transaksi_produk.append('peg_id_pegawai', this.form.peg_id_pegawai); 
+      this.transaksi_produk.append('id_pegawai', this.form.id_pegawai);
       this.transaksi_produk.append('id_hewan', this.form.id_hewan);
       this.transaksi_produk.append('status_transaksi_produk', this.form.status_transaksi_produk);  
       this.transaksi_produk.append('diskon_produk', this.form.diskon_produk); 
@@ -460,32 +469,7 @@ export default {
         this.load = false; 
       }) 
     },
-    updateData2(){
-  this.detil_transaksi_produk.append('id_transaksi_produk', this.form2.id_transaksi_produk);
-  this.detil_transaksi_produk.append('id_produk', this.form2.id_produk);
-  this.detil_transaksi_produk.append('jumlah_produk', this.form2.jumlah_produk);
-  var uri =this.$apiUrl + '/detiltransaksiproduk/' + this.updatedId2
-  this.load = true;
-  this.$http.post(uri,this.detil_transaksi_produk).then(response =>{
-  this.snackbar = true;
-  this.color = 'green';
-  this.text = response.data.Message;
-  this.load = false;
-  var uri2 = this.$apiUrl + '/detiltransaksiproduk/' + this.updatedId3
-          this.$http.get(uri2).then(response => {
-            this.itemss = response.data.Data
-          })
-        this.resetForm2();
-        this.dialog1 = false;
-      }).catch(error => {
-        this.errors = error
-        this.snackbar = true;
-        this.text = 'Try Again';
-        this.color = 'red';
-        this.load = false;
-        this.typeInput= 'new';
-      })
-    },
+    
     deleteData(deleteitem) {
       var uri = this.$apiUrl + '/transaksiproduk/' + this.deleteitem.ID_TRANSAKSI_PRODUK;
       this.$http.delete(uri).then(response => {
@@ -534,13 +518,39 @@ export default {
       (this.updatedId = item.ID_TRANSAKSI_PRODUK);
       this.dialog = true;
     },
+    updateData2() {
+      this.detil_transaksi_produk.append('id_transaksi_produk', this.form2.id_transaksi_produk);
+      this.detil_transaksi_produk.append('id_produk', this.form2.id_produk);
+      this.detil_transaksi_produk.append('jumlah_produk', this.form2.jumlah_produk);
+      var uri = this.$apiUrl + '/detiltransaksiproduk/' + this.updatedId2
+      this.load = true;
+      this.$http.post(uri, this.detil_transaksi_produk).then(response => {
+        this.snackbar = true;
+        this.color = 'green';
+        this.text = response.data.Message;
+        this.load = false;
+        var uri2 = this.$apiUrl + '/detiltransaksiproduk/' + this.updatedId3
+          this.$http.get(uri2).then(response => {
+            this.itemss = response.data.Data
+          })
+        this.resetForm2();
+        this.dialog1 = false;
+      }).catch(error => {
+        this.errors = error
+        this.snackbar = true;
+        this.text = 'Try Again';
+        this.color = 'red';
+        this.load = false;
+        this.typeInput= 'new';
+      })
+    },
     editHandler2(item) {
       this.edit=true,
       this.typeInput = "edit";
       this.form2.id_transaksi_produk = item.ID_TRANSAKSI_PRODUK;
       this.form2.id_produk = item.ID_PRODUK;
       this.form2.jumlah_produk=item.JUMLAH_PRODUK;
-      (this.updatedId2 = item.ID_DETIL_TRANSAKSI);
+      this.updatedId2 = item.ID_DETIL_TRANSAKSI;
       this.updatedId3 = item.ID_TRANSAKSI_PRODUK;
       this.dialog1 = true;
       },
@@ -552,15 +562,24 @@ export default {
         this.updateData();
       }
     },
+    setForm2() {
+  if (this.typeInput === "new") {
+  this.sendData2();
+  } else {
+
+  this.updateData2();
+  }
+  },
     close(){
       this.dialogdetail=false,
       this.dialog=false,
       this.resetForm()
     },
-    close2(){
+    close2() {
       this.varAdd = '',
       this.itemss = [],
-      this.dialogdetail=false,
+
+      this.dialogdetail = false,
       this.dialog1=false,
       this.resetForm2()
     },
@@ -569,7 +588,7 @@ export default {
       this.form = {
         id_transaksi_produk:"",
         id_pegawai: 1,
-        id_hewan: 1,
+        id_produk: 1,
         peg_id_pegawai: 1,
         status_transaksi_produk: 0,
         tgl_transaksi:"",
@@ -577,16 +596,8 @@ export default {
         total_transaksi_produk:0,
         diskon_produk:0
       };
-    },
+    },  
   
-  setForm2() {
-  if (this.typeInput === "new") {
-  this.sendData2();
-  } else {
-
-  this.updateData2();
-  }
-  },
   resetForm2() {
   this.edit=false,
   this.form2 = {

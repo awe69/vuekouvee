@@ -19,6 +19,9 @@ function PegawaiAdmin(view){
 function PegawaiCS(view){
     return () => import(`../Pegawai/CS/${view}.vue`)
 }
+function PegawaiKasir(view){
+    return () => import(`../Pegawai/Kasir/${view}.vue`)
+}
 
 const routes = [
     {
@@ -107,6 +110,21 @@ const routes = [
                 path:'/pegawai/TransaksiLayanan',
                 component:PegawaiCS('TransaksiLayanan')
             },
+        ]
+    },{
+        path:'/pegawai',
+        component:LayoutPegawai,
+        children:[
+            {
+                name:'ProdukKasir',
+                path:'/pegawai/kasir/TransaksiProduk',
+                component:PegawaiKasir('TransaksiProdukKasir')
+            },
+            {
+                name:'LayananKasir',
+                path:'/pegawai/kasir/TransaksiLayanan',
+                component:PegawaiKasir('TransaksiLayananKasir')
+            }
         ]
     }
 ]

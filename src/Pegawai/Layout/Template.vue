@@ -88,17 +88,15 @@
               { title: 'Pelanggan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/pelanggan'},
               { title: 'Hewan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/hewan'},
               { title: 'Transaksi Produk',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TransaksiProduk'},
-              { title: 'Show TP',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TampilTransaksiProduk'},
               { title: 'Transaksi Layanan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TransaksiLayanan'},
-              { title: 'Show TL',icons:'mdi-checkbox-blank-circle',route:'/pegawai/TampilTransaksiLayanan'},
             ]
           },
           {
             title:'Kasir',
             icon:'mdi-cash',
             items: [
-              { title: 'Transaksi Produk',icons:'mdi-checkbox-blank-circle',route:''},
-              { title: 'Transaksi Layanan',icons:'mdi-checkbox-blank-circle',route:''},
+              { title: 'Transaksi Produk',icons:'mdi-checkbox-blank-circle',route:'/pegawai/kasir/TransaksiProduk'},
+              { title: 'Transaksi Layanan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/kasir/TransaksiLayanan'},
             ]
           },
         ]
