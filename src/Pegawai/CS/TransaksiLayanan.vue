@@ -17,13 +17,16 @@
         <template v-slot:default="props">
             <v-row class="ml-1">
                 <v-col v-for="item in props.items" :key="item.ID_TRANSAKSI_LAYANAN" cols="8" sm="6" md="3" lg="3">
-                    <v-card max-width="250" min-height="100" class="mb-10">
+                    <v-card max-width="500" min-height="100" class="mb-10">
                         <v-list dense>
                             <v-list-item>
                                 <v-list-item-content>ID Transaksi</v-list-item-content>
                                 <v-list-item-content class="align-end">: {{ item.ID_TRANSAKSI_LAYANAN }}</v-list-item-content>
                             </v-list-item>
-
+                            <v-list-item>
+                                <v-list-item-content>Pelanggan</v-list-item-content>
+                                <v-list-item-content class="align-center">: {{ item.NAMA_PELANGGAN }}</v-list-item-content>
+                            </v-list-item>
                             <v-list-item>
                                 <v-list-item-content>Tanggal</v-list-item-content>
                                 <v-list-item-content class="align-end">: {{ item.TGL_TRANSAKSI_LAYANAN}}</v-list-item-content>
@@ -435,6 +438,7 @@ export default {
         deletetransaksi(item) {
             if (item.TOTAL_TRANSAKSI_LAYANAN != 0) {
                 this.snackbar = true;
+                this.color = 'red';
                 this.text = 'Pastikan Item Sudah diHapus Terlebih Dahulu'
             } else {
                 var url = this.$apiUrl + '/transaksilayanan/' + item.ID_TRANSAKSI_LAYANAN;
@@ -526,13 +530,20 @@ export default {
         postDetil() {
             console.log('cek')
             var c = this.rows.length;
+            var DETIL = new FormData;
+            var x;
             console.log(c)
             var i = 0;
             for (; i < c; i++) {
-                this.detiltransaksi.append('id_transaksi_layanan', this.kodeTemp);
-                this.detiltransaksi.append('id_layanan', this.rows[i].layanan.ID_LAYANAN);
+                DETIL.append('id_transaksi_layanan', this.kodeTemp);
+                console.log(i);
+                x = this.rows[i].layanan.ID_LAYANAN;
+                DETIL.append('id_layanan', this.rows[i].layanan.ID_LAYANAN);
+                for (var pair of DETIL.entries()) {
+                        console.log(pair[0]+ ', ' + pair[1]); 
+                    }
                 var uri = this.$apiUrl + '/detiltransaksilayanan'
-                this.$http.post(uri, this.detiltransaksi).then(response => {
+                this.$http.post(uri, DETIL).then(response => {
                     this.snackbar = true;
                     this.color = 'green';
                     this.text = response.data.Message;
@@ -545,10 +556,11 @@ export default {
                     this.errors = error;
                     console.log('asdasd');
                     this.snackbar = true;
-                    this.text = error.response.Message;
+                    this.text = 'Layanan Harus Di Isi';
                     this.color = 'red';
                     this.load = false;
                 })
+                DETIL = new FormData;
             }
         },
         canceltransaksi() {

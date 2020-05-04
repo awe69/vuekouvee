@@ -140,6 +140,7 @@ export default {
             diskon_layanan:0,
             total_transaksi_layanan:0,
             progres_layanan:0,
+            subtotal:0,
         },
         editdata: false,
         transaksiLayanan: new FormData,
@@ -263,6 +264,7 @@ export default {
             this.diskonHandler.diskon_layanan=item.DISKON_LAYANAN,
             this.diskonHandler.total_transaksi_layanan=item.TOTAL_TRANSAKSI_LAYANAN,
             this.diskonHandler.progres_layanan=item.PROGRES_LAYANAN,
+            this.diskonHandler.subtotal=item.SUBTOTAL_TRANSAKSI_LAYANAN,
             this.dialog2=true;
         },
         diskonsend(){
@@ -272,14 +274,15 @@ export default {
             this.transaksiLayanan.append('id_hewan', this.diskonHandler.id_hewan);
             this.transaksiLayanan.append('diskon_layanan', this.diskonHandler.diskon_layanan);
             this.transaksiLayanan.append('total_transaksi_layanan', this.diskonHandler.total_transaksi_layanan);
-            this.transaksiLayanan.append('status_layanan', 1);
+            this.transaksiLayanan.append('status_layanan', 0);
             this.transaksiLayanan.append('progres_layanan', this.diskonHandler.progres_layanan);
-            this.transaksiLayanan.append('subtotal_transaksi_layanan', item.SUBTOTAL_TRANSAKSI_LAYANAN);
+            this.transaksiLayanan.append('subtotal_transaksi_layanan', this.diskonHandler.subtotal);
             this.$http.post(uri, this.transaksiLayanan).then(response => {
                 this.snackbar = true;
                 this.color = 'green';
                 this.text = 'Berhasil';
                 this.getData();
+                this.dialog2=false;
             }).catch(error => {
                 this.errors = error;
                 console.log('asdasd');
