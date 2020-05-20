@@ -73,6 +73,11 @@ const routes = [
                 name:'LayananAdmin',
                 path:'/pegawai/layanan',
                 component:PegawaiAdmin('Layanan')
+            },
+            {
+                name:'PemesananAdmin',
+                path:'/pegawai/pemesanan',
+                component:PegawaiAdmin('Pemesanan')
             }
         ]
     },

@@ -73,7 +73,7 @@
         this.user.append("password", this.password);
 
         this.$http.post(url, this.user).then(response => {
-          // console.log("sudah bisa post")
+          console.log("sudah bisa post")
           if (response.data.Data) {
             this.data = response.data.Data;
             this.$session.start();

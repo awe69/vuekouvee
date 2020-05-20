@@ -53,7 +53,7 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-content class="red darken-2">
+    <v-content class="light-green darken-4">
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -79,6 +79,7 @@
               { title: 'Ukuran',icons:'mdi-checkbox-blank-circle',route:'/pegawai/ukuran'},
               { title: 'Pegawai',icons:'mdi-checkbox-blank-circle',route:'/pegawai/employees'},
               { title: 'Supplier',icons:'mdi-checkbox-blank-circle',route:'/pegawai/supplier'},
+              { title: 'Pemesanan',icons:'mdi-checkbox-blank-circle',route:'/pegawai/pemesanan'},
             ],
           },
           {

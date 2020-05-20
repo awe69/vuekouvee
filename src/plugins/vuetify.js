@@ -14,6 +14,7 @@ const vuetify = new Vuetify({
         accent: '#82B1FF',
         anchor: '#8c9eff',
         warning:'#f94333',
+        bg:'#222831'
       },
     },light:true
   },

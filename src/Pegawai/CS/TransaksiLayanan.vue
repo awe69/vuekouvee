@@ -4,13 +4,7 @@
         <template v-slot:header>
             <v-toolbar class="mb-2">
                 <v-text-field v-model="search" clearable solo hide-details label="Search"></v-text-field>
-                <v-btn
-                large
-                class="mr-3 ml-10"
-                color="green"
-                :disabled="dis"
-                @click="tambah=true"
-                >Tambah
+                <v-btn large class="mr-3 ml-10" color="green" :disabled="dis" @click="tambah=true">Tambah
                 </v-btn>
             </v-toolbar>
         </template>
@@ -64,120 +58,110 @@
         </template>
     </v-data-iterator>
     <v-dialog light v-model="tambah" persistent max-width="1000px" height="1000px">
-        
-            <v-row class="mb-2 mt-5" justify="center" no-gutters v-if="cekform">
-                <v-col md="auto">
-                    <v-card class="pa-5" width="1000px" outlined light tile>
+        <v-row class="mb-2 mt-5" justify="center" no-gutters v-if="cekform">
+            <v-col md="auto">
+                <v-card class="pa-5" width="1000px" outlined light tile>
+                    <v-row>
+                        <v-col cols="3">
+                            <v-text-field solo flat label="Nama Hewan	:" readonly=""></v-text-field>
+                        </v-col>
+                        <v-col cols="9">
+                            <v-select v-model="tempHewan" :items="hewans" item-text="NAMA_HEWAN" item-value="ID_HEWAN" label="Nama" persistent-hint return-object solo></v-select>
+                        </v-col>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-btn block color="success" @click="inputhewan(formHewan)" dark>CEK</v-btn>
+                        </v-col>
+                    </v-row>
+                    <div>
                         <v-row>
                             <v-col cols="3">
-                                <v-text-field solo flat label="Nama Hewan	:" readonly=""></v-text-field>
+                                <v-text-field solo flat label="Nama Hewan" readonly></v-text-field>
                             </v-col>
                             <v-col cols="9">
-                                <v-select v-model="tempHewan" :items="hewans" item-text="NAMA_HEWAN" item-value="ID_HEWAN" label="Nama" persistent-hint return-object solo></v-select>
+                                <v-text-field v-model="formHewan.namahewan" solo label="Nama Hewan" readonly></v-text-field>
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col cols="12">
-                                <v-btn block color="success" @click="inputhewan(formHewan)" dark>CEK</v-btn>
+                            <v-col cols="3">
+                                <v-text-field solo flat label="Jenis Hewan" readonly></v-text-field>
+                            </v-col>
+                            <v-col cols="9">
+                                <v-text-field v-model="formHewan.jenishewan" solo label="jenis Hewan" readonly></v-text-field>
                             </v-col>
                         </v-row>
-                        <div>
-                            <v-row>
-                                <v-col cols="3">
-                                    <v-text-field solo flat label="Nama Hewan" readonly></v-text-field>
-                                </v-col>
-                                <v-col cols="9">
-                                    <v-text-field v-model="formHewan.namahewan" solo label="Nama Hewan" readonly></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="3">
-                                    <v-text-field solo flat label="Jenis Hewan" readonly></v-text-field>
-                                </v-col>
-                                <v-col cols="9">
-                                    <v-text-field v-model="formHewan.jenishewan" solo label="jenis Hewan" readonly></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="3">
-                                    <v-text-field solo flat label="Nama Pemilik" readonly></v-text-field>
-                                </v-col>
-                                <v-col cols="9">
-                                    <v-text-field v-model="formHewan.namaPemilik" solo label="Nama Pemilik" readonly></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="3">
-                                    <v-text-field solo flat label="Tgl Lahir" readonly></v-text-field>
-                                </v-col>
-                                <v-col cols="9">
-                                    <v-text-field v-model="formHewan.tgllahir" solo label="Tanggal Lahir Hewan" readonly></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="3">
-                                    <v-text-field solo flat label="Diskon" readonly></v-text-field>
-                                </v-col>
-                                <v-col cols="9">
-                                    <v-text-field v-model="formHewan.diskon" solo></v-text-field>
-                                </v-col>
-                            </v-row>
-                            <div class="d-flex justify-content-end">
-                                <v-btn class="ma-2" color="error" @click="tambah=false">
-                                    Cancel
-                                </v-btn>
-                                <v-btn class="ma-2" color="success" :disabled="submitatascek" @click="postTansaksi()">
-                                    Submit
-                                </v-btn>
-                            </div>
+                        <v-row>
+                            <v-col cols="3">
+                                <v-text-field solo flat label="Nama Pemilik" readonly></v-text-field>
+                            </v-col>
+                            <v-col cols="9">
+                                <v-text-field v-model="formHewan.namaPemilik" solo label="Nama Pemilik" readonly></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="3">
+                                <v-text-field solo flat label="Tgl Lahir" readonly></v-text-field>
+                            </v-col>
+                            <v-col cols="9">
+                                <v-text-field v-model="formHewan.tgllahir" solo label="Tanggal Lahir Hewan" readonly></v-text-field>
+                            </v-col>
+                        </v-row>
+                        <div class="d-flex justify-content-end">
+                            <v-btn class="ma-2" color="error" @click="tambah=false">
+                                Cancel
+                            </v-btn>
+                            <v-btn class="ma-2" color="success" :disabled="submitatascek" @click="postTansaksi()">
+                                Submit
+                            </v-btn>
                         </div>
-                    </v-card>
-                </v-col>
+                    </div>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-row class="mb-2 mt-5" justify="center" no-gutters v-if="formAktif">
 
-            </v-row>
-            <v-row class="mb-2 mt-5" justify="center" no-gutters v-if="formAktif">
-
-                <v-col md="auto">
-                    <v-card class="pa-2" width="1000px" outlined tile light="">
-                        <v-container>
-                            <v-row>
-                                <v-col cols="9">
-                                    <label>Layanan</label>
-                                </v-col>
-                                <v-col cols="2">
-                                    <label>Total Harga</label>
-                                </v-col>
-                                <v-col cols="1">
-                                    <button type="submit" class="btn btn-success" @click="addRow">+</button>
-                                </v-col>
-                            </v-row>
-                            <v-row v-for="(row,index) in rows" :key="index">
-                                <v-col cols="9">
-                                    <v-select v-model="row.layanan" :items="isilayanans" item-text="NAMA_LAYANAN" item-value="ID_LAYANAN" label="Layanan" persistent-hint return-object solo></v-select>
-                                </v-col>
-                                <v-col cols="2">
-                                    <v-text-field v-model="row.layanan.HARGA_LAYANAN" solo readonly></v-text-field>
-                                </v-col>
-                                <v-col cols="1">
-                                    <button class="btn btn-danger" @click="deleteRow(rows,row.index)">X</button>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col>
-                                    <div class="d-flex justify-content-end">
-                                        <v-btn class="ma-2" color="error" @click="canceltransaksi()">
-                                            Cancel
-                                        </v-btn>
-                                        <v-btn class="ma-2" color="success" @click="postDetil()">
-                                            Submit
-                                        </v-btn>
-                                    </div>
-                                </v-col>
-                            </v-row>
-                        </v-container>
-                    </v-card>
-                </v-col>
-            </v-row>
+            <v-col md="auto">
+                <v-card class="pa-2" width="1000px" outlined tile light="">
+                    <v-container>
+                        <v-row>
+                            <v-col cols="9">
+                                <label>Layanan</label>
+                            </v-col>
+                            <v-col cols="2">
+                                <label>Total Harga</label>
+                            </v-col>
+                            <v-col cols="1">
+                                <button type="submit" class="btn btn-success" @click="addRow">+</button>
+                            </v-col>
+                        </v-row>
+                        <v-row v-for="(row,index) in rows" :key="index">
+                            <v-col cols="9">
+                                <v-select v-model="row.layanan" :items="isilayanans" item-text="NAMA_LAYANAN" item-value="ID_LAYANAN" label="Layanan" persistent-hint return-object solo></v-select>
+                            </v-col>
+                            <v-col cols="2">
+                                <v-text-field v-model="row.layanan.HARGA_LAYANAN" solo readonly></v-text-field>
+                            </v-col>
+                            <v-col cols="1">
+                                <button class="btn btn-danger" @click="deleteRow(rows,row.index)">X</button>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col>
+                                <div class="d-flex justify-content-end">
+                                    <v-btn class="ma-2" color="error" @click="canceltransaksi()">
+                                        Cancel
+                                    </v-btn>
+                                    <v-btn class="ma-2" color="success" @click="postDetil()">
+                                        Submit
+                                    </v-btn>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-card>
+            </v-col>
+        </v-row>
     </v-dialog>
     <v-dialog light v-model="dialog" persistent max-width="600px">
         <v-card>
@@ -235,13 +219,13 @@
 <script>
 export default {
     data: () => ({
-        dis:false,
+        dis: false,
         layanans: [],
-        tambah:false,
+        tambah: false,
         indexes: 0,
         page: 1,
         dialog2: false,
-        
+
         headers: [{
                 text: 'NO',
                 value: '',
@@ -459,14 +443,12 @@ export default {
             }
         },
         getData() {
-            if(!this.$session.exists()){
+            if (!this.$session.exists()) {
                 this.$router.push('/login');
-            }
-            else{
+            } else {
                 if (this.$session.get('role') != 'CS') {
-                    this.dis = true ;
-                }
-                else{
+                    this.dis = true;
+                } else {
                     var uri = this.$apiUrl + '/transaksilayanan'
                     this.$http.get(uri).then(response => {
                         this.layanans = response.data.Data
@@ -504,15 +486,15 @@ export default {
             this.transaksiLayanan.append('id_pegawai', this.$session.get('id'));
             this.transaksiLayanan.append('peg_id_pegawai', 1);
             this.transaksiLayanan.append('id_hewan', this.formHewan.id_hewan);
-            this.transaksiLayanan.append('diskon_layanan', this.formHewan.diskon);
-            console.log(this.formHewan.id_hewan);
+            this.transaksiLayanan.append('diskon_layanan', 0);
+            // console.log(this.formHewan.id_hewan);
             var uri = this.$apiUrl + '/TransaksiLayanan'
-            console.log(uri);
+            // console.log(uri);
             this.$http.post(uri, this.transaksiLayanan).then(response => {
                 this.snackbar = true;
                 this.color = 'green';
                 this.kodeTemp = response.data.Data;
-                this.text = response.data.Message+' Kode Anda '+this.kodeTemp;
+                this.text = response.data.Message + ' Kode Anda ' + this.kodeTemp;
                 this.dialog = false;
                 console.log(this.kodeTemp);
                 this.formAktif = true;
@@ -540,8 +522,8 @@ export default {
                 x = this.rows[i].layanan.ID_LAYANAN;
                 DETIL.append('id_layanan', this.rows[i].layanan.ID_LAYANAN);
                 for (var pair of DETIL.entries()) {
-                        console.log(pair[0]+ ', ' + pair[1]); 
-                    }
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
                 var uri = this.$apiUrl + '/detiltransaksilayanan'
                 this.$http.post(uri, DETIL).then(response => {
                     this.snackbar = true;
@@ -562,6 +544,7 @@ export default {
                 })
                 DETIL = new FormData;
             }
+            DETIL = new FormData;
         },
         canceltransaksi() {
             var uri = this.$apiUrl + '/transaksilayanan/' + this.kodeTemp;
