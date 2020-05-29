@@ -94,7 +94,7 @@
     <v-dialog v-model="dialogbayar" persistent max-width="600px">
           <v-card>
             <v-card-title>
-              <span class="headline">BAYAR BOSS</span>
+              <span class="headline">Kasir</span>
             </v-card-title>
             <v-card-text>
               <v-container>
