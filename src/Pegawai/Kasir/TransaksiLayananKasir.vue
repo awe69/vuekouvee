@@ -27,7 +27,7 @@
                             </v-list-item>
                         </v-list>
                         <v-card-actions class="justify-content-center">
-                            <v-btn color="green" text :disabled="updatebtn(item.STATUS_LAYANAN)" @click="update(item)">
+                            <v-btn color="green" text :disabled="updatebtn(item.STATUS_LAYANAN)" @click="bayar(item)">
                                 DONE
                             </v-btn>
                             <v-btn color="green" text :disabled="updatebtn(item.STATUS_LAYANAN)" @click="edit(item)">
@@ -91,6 +91,33 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
+    <v-dialog v-model="dialogbayar" persistent max-width="600px">
+          <v-card>
+            <v-card-title>
+              <span class="headline">BAYAR BOSS</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                <v-col cols="6">
+                <v-text-field color="blue" label="Total" readonly v-model="totalTrans" outlined dense></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field color="blue" label="Masukkan Uang" v-on:keyup="kembalian()" v-model="uangTrans"  dense></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field color="blue" label="Kembalian"  v-model="kembalianTrans"  :rules="bayarRules" outlined dense readonly></v-text-field>
+              </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialogbayar = false, uangTrans=0, kembalianTrans=0">Close</v-btn>
+              <v-btn color="blue darken-1" text @click="update(tempbayar)">Bayar</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
     <v-snackbar v-model="snackbar" :color="color" :multi-line="true" :timeout="10000">
         {{ text }}
         <v-btn dark text @click="snackbar = false">Close</v-btn>
@@ -106,7 +133,14 @@ export default {
         indexes: 0,
         page: 1,
         dialog2: false,
-        
+        tempbayar:[],
+        totalTrans:0,
+        uangTrans:0,
+        kembalianTrans:0,
+        dialogbayar: false,
+        bayarRules: [
+       value => (value >= 0 )|| 'Uang Kurang',
+    ],
         headers: [{
                 text: 'NO',
                 value: '',
@@ -166,6 +200,14 @@ export default {
         restartbuatedititem() {
             this.buatedititem = [];
             this.dialog = false;
+        },
+        bayar(item){
+            this.totalTrans = item.TOTAL_TRANSAKSI_LAYANAN;
+            this.dialogbayar = true;
+            this.tempbayar= item;
+        },
+        kembalian(){
+            this.kembalianTrans = this.uangTrans - this.totalTrans
         },
         restartedithandler() {
             this.formedit = {
@@ -293,7 +335,7 @@ export default {
             })
         },
         update(item) {
-            console.log(item)
+            console.log(item);
             var uri = this.$apiUrl + '/transaksilayanan/' + item.ID_TRANSAKSI_LAYANAN
             console.log(item.ID_TRANSAKSI_LAYANAN)
             this.transaksiLayanan.append('id_pegawai', item.ID_PEGAWAI);
@@ -319,6 +361,9 @@ export default {
                 this.load = false;
             })
             window.location = "http://localhost/apikouvee/index.php/cetaknota/printNota/"+item.ID_TRANSAKSI_LAYANAN;
+            this.dialogbayar = false;
+            this.uangTrans=0; 
+            this.kembalianTrans=0;
         },
         deletetransaksi(item) {
             if (item.TOTAL_TRANSAKSI_LAYANAN != 0) {

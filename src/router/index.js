@@ -78,7 +78,12 @@ const routes = [
                 name:'PemesananAdmin',
                 path:'/pegawai/pemesanan',
                 component:PegawaiAdmin('Pemesanan')
-            }
+            },
+            {
+                name:'LaporanAdmin',
+                path:'/pegawai/laporan',
+                component:PegawaiAdmin('Laporan')
+            },
         ]
     },
     {
